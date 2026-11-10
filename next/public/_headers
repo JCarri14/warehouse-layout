@@ -1,0 +1,5 @@
+# Cloudflare static assets: response headers for every route.
+# Forbid embedding the app in other sites' frames (clickjacking).
+/*
+  Content-Security-Policy: frame-ancestors 'none'
+  X-Frame-Options: DENY
