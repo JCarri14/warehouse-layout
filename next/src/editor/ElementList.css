@@ -1,0 +1,7 @@
+.element-filters { padding: 4px 14px 10px; flex-shrink: 0; display: grid; gap: 8px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.element-filters label { display: grid; gap: 4px; font-size: 11px; color: var(--muted); min-width: 0; }
+.element-filters input,.element-filters select { width: 100%; min-width: 0; }
+.element-filter-summary { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); min-height: 28px; }
+.element-filter-summary button { padding: 3px 5px; min-height: 28px; font-size: 11px; }
+.element-filter-notice { margin: 0; padding: 8px; background: var(--tint); color: var(--ink); font-size: 11px; line-height: 1.5; }
+.element-filters input { min-height: 34px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); color: var(--ink); font-size: 12px; }

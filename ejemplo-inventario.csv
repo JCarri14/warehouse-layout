@@ -1,0 +1,93 @@
+﻿sku;descripcion;ubicacion;cantidad
+REF-1007;Cable apantallado 4x1;C20109;25
+REF-1007;Cable apantallado 4x1;C20209;26
+REF-1014;Correa dentada HTD;E30109;9
+REF-1021;Rodamiento 6204;E60101;1
+REF-1021;Rodamiento 6204;E60201;4
+REF-1028;Cable apantallado 4x1;E10104;3
+REF-1035;Válvula esférica 1/2;B40107;34
+REF-1042;Junta tórica NBR 25x3;B20110;22
+REF-1049;Muelle de compresión;C40110;16
+REF-1056;Muelle de compresión;E60107;28
+REF-1063;Muelle de compresión;B60108;28
+REF-1070;Acoplamiento elástico;F40102;16
+REF-1070;Acoplamiento elástico;F40202;38
+REF-1077;Junta tórica NBR 25x3;D20103;12
+REF-1077;Junta tórica NBR 25x3;D20203;7
+REF-1084;Sensor inductivo PNP;C40109;20
+REF-1084;Sensor inductivo PNP;C40209;3
+REF-1091;Acoplamiento elástico;B40104;33
+REF-1091;Acoplamiento elástico;B40204;18
+REF-1098;Engranaje recto Z30;C60109;10
+REF-1098;Engranaje recto Z30;C60209;16
+REF-1105;Brida inoxidable DN50;C60105;37
+REF-1112;Rodamiento 6204;C20101;20
+REF-1112;Rodamiento 6204;C20201;11
+REF-1119;"Válvula esférica 1/2""";E10105;22
+REF-1119;"Válvula esférica 1/2""";E10205;18
+REF-1126;Filtro hidráulico 10µm;B60110;15
+REF-1126;Filtro hidráulico 10µm;B60210;30
+REF-1133;Rodamiento 6204;F20106;22
+REF-1133;Rodamiento 6204;F20206;34
+REF-1140;Tornillo DIN 912 M8;E50102;2
+REF-1147;Junta tórica NBR 25x3;F20107;28
+REF-1147;Junta tórica NBR 25x3;F20207;19
+REF-1154;Muelle de compresión;E60103;23
+REF-1154;Muelle de compresión;E60203;16
+REF-1161;Tornillo DIN 912 M8;E10108;23
+REF-1168;Rodamiento 6204;F60104;37
+REF-1175;Rodamiento 6204;E40105;39
+REF-1182;Engranaje recto Z30;B20101;38
+REF-1182;Engranaje recto Z30;B20201;15
+REF-1189;Engranaje recto Z30;B60106;34
+REF-1196;"Válvula esférica 1/2""";B40110;35
+REF-1196;"Válvula esférica 1/2""";B40210;32
+REF-1203;Brida inoxidable DN50;E50103;30
+REF-1210;Acoplamiento elástico;C40106;26
+REF-1217;Filtro hidráulico 10µm;E40109;16
+REF-1224;Cable apantallado 4x1;E40106;27
+REF-1224;Cable apantallado 4x1;E40206;30
+REF-1231;Junta tórica NBR 25x3;A20108;14
+REF-1238;Rodamiento 6204;F60103;15
+REF-1238;Rodamiento 6204;F60203;33
+REF-1245;Acoplamiento elástico;E10110;23
+REF-1252;Acoplamiento elástico;D20106;3
+REF-1252;Acoplamiento elástico;D20206;27
+REF-1259;Sensor inductivo PNP;F20101;33
+REF-1259;Sensor inductivo PNP;F20201;7
+REF-1266;Tornillo DIN 912 M8;B20103;30
+REF-1266;Tornillo DIN 912 M8;B20203;26
+REF-1273;Engranaje recto Z30;C60103;23
+REF-1280;Filtro hidráulico 10µm;E10109;13
+REF-1287;Acoplamiento elástico;E30104;19
+REF-1287;Acoplamiento elástico;E30204;10
+REF-1294;Engranaje recto Z30;C40107;38
+REF-1301;Cable apantallado 4x1;D40109;31
+REF-1301;Cable apantallado 4x1;D40209;22
+REF-1308;Tornillo DIN 912 M8;H20101;34
+REF-1315;Junta tórica NBR 25x3;D60103;32
+REF-1315;Junta tórica NBR 25x3;D60203;12
+REF-1322;"Válvula esférica 1/2""";C60108;5
+REF-1322;"Válvula esférica 1/2""";C60208;19
+REF-1329;Cable apantallado 4x1;E20107;17
+REF-1336;Acoplamiento elástico;F60108;30
+REF-1336;Acoplamiento elástico;F60208;17
+REF-1343;Acoplamiento elástico;F40108;3
+REF-1350;Acoplamiento elástico;A60108;39
+REF-1350;Acoplamiento elástico;A60208;19
+REF-1357;Correa dentada HTD;D60107;33
+REF-1357;Correa dentada HTD;D60207;33
+REF-1364;Brida inoxidable DN50;H20105;34
+REF-1364;Brida inoxidable DN50;H20205;3
+REF-1371;Filtro hidráulico 10µm;B60103;27
+REF-1371;Filtro hidráulico 10µm;B60203;35
+REF-1378;"Válvula esférica 1/2""";E60106;22
+REF-1385;"Válvula esférica 1/2""";D20110;16
+REF-1392;Tornillo DIN 912 M8;D40105;15
+REF-1399;Correa dentada HTD;C40102;36
+REF-1399;Correa dentada HTD;C40202;9
+REF-1406;Tornillo DIN 912 M8;A60110;33
+REF-1413;"Válvula esférica 1/2""";D40101;10
+REF-1420;Cable apantallado 4x1;E30105;34
+REF-1420;Cable apantallado 4x1;E30205;25
+REF-9999;Pieza sin ubicar en el plano;Z90199;4

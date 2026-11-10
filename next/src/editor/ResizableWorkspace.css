@@ -1,0 +1,6 @@
+.resizable-workspace{position:relative}
+.panel-separator{width:6px;min-height:0;align-self:stretch;cursor:col-resize;touch-action:none;user-select:none;display:flex;align-items:center;justify-content:center;background:oklch(92% .012 170);z-index:2;outline-offset:-1px}
+.panel-separator>span{height:34px;width:2px;border-radius:2px;background:oklch(65% .025 170)}
+.panel-separator:hover,.panel-separator.is-dragging{background:oklch(84% .045 170)}
+.panel-separator:focus-visible{outline:2px solid var(--accent);background:var(--tint)}
+@media(max-width:800px){.panel-separator{display:none}}

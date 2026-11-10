@@ -1,0 +1,92 @@
+import { test } from './fixtures'
+import { expect, type Page } from '@playwright/test'
+import { warehouseAction } from './helpers'
+import fs from 'node:fs/promises'
+import type { WarehouseDocument } from '../src/warehouse/document'
+
+async function exported(page: Page): Promise<WarehouseDocument> {
+  const download = page.waitForEvent('download'); await warehouseAction(page, 'Guardar almacén')
+  return JSON.parse(await fs.readFile((await (await download).path())!, 'utf8'))
+}
+async function drag(page: Page, code: string, dx: number, dy = 0) {
+  const handle = page.getByRole('button', { name: `Redimensionar ${code}: Derecha`, exact: true })
+  const box = (await handle.boundingBox())!, canvas = (await page.locator('.canvas-panel canvas').boundingBox())!
+  const half = Math.max(17 * 1.15 + 2, (16 * 1.15 + 2) / (canvas.width / canvas.height)), scale = canvas.height / (2 * half)
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
+  await page.mouse.down(); await page.mouse.move(box.x + box.width / 2 + dx * scale, box.y + box.height / 2 + dy * scale, { steps: 8 })
+}
+test('redimensiona con vista previa y un solo deshacer; el giro conserva ubicaciones', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message))
+  await page.goto('/app')
+  await page.getByRole('button', { name: 'Añadir estantería', exact: true }).first().click()
+  await page.getByRole('button', { name: 'Superior', exact: true }).click()
+  await expect(page.getByRole('button', { name: /^Redimensionar A0:/ })).toHaveCount(4)
+  const baseline = await exported(page)
+  await drag(page, 'A0', 1)
+  await expect(page.locator('.drag-status')).toContainText('7 × 1,2 m')
+  await expect(page.getByLabel('Ancho', { exact: true })).toHaveValue('6')
+  await page.screenshot({ path: 'artifacts/redimensionar-estanteria-preview.png' })
+  await page.mouse.up()
+  await expect(page.getByLabel('Ancho', { exact: true })).toHaveValue('7')
+  const resized = await exported(page)
+  expect(resized.racks[0]).toEqual({ ...baseline.racks[0], widthMm: 7000 })
+  await page.getByRole('button', { name: 'Deshacer', exact: true }).click()
+  expect(await exported(page)).toEqual(baseline)
+  await page.getByRole('button', { name: 'Rehacer', exact: true }).click()
+  expect(await exported(page)).toEqual(resized)
+  await page.getByRole('button', { name: 'Girar 90°', exact: true }).click()
+  await page.getByRole('button', { name: 'Redimensionar A0: Derecha', exact: true }).press('ArrowRight')
+  const rotated = await exported(page)
+  expect(rotated.racks[0]).toMatchObject({ widthMm: 7000, depthMm: 2200, rotation: 90, columns: baseline.racks[0].columns, levels: baseline.racks[0].levels })
+  await page.getByRole('button', { name: 'Isométrica', exact: true }).click()
+  await expect(page.getByRole('button', { name: /^Redimensionar A0:/ })).toHaveCount(0)
+  expect(errors).toEqual([])
+})
+
+test('rechaza colisiones, cancela con Escape y protege los borradores', async ({ page }) => {
+  await page.goto('/app')
+  await page.getByRole('button', { name: 'Añadir estantería', exact: true }).first().click()
+  await page.getByRole('button', { name: 'Añadir obstáculo', exact: true }).click()
+  await page.getByLabel('Coordenada X').fill('8'); await page.getByLabel('Coordenada Y').fill('1')
+  await page.getByRole('button', { name: 'Aplicar', exact: true }).click()
+  await page.locator('.element-row[data-kind=rack]').click()
+  await page.getByRole('button', { name: 'Superior', exact: true }).click()
+  const baseline = await exported(page)
+  await drag(page, 'A0', 2)
+  await expect(page.locator('.drag-status.invalid')).toContainText('solapan')
+  await page.screenshot({ path: 'artifacts/redimensionar-estanteria-colision.png' })
+  await page.mouse.up()
+  expect(await exported(page)).toEqual(baseline)
+  await drag(page, 'A0', 1)
+  await page.keyboard.press('Escape'); await page.mouse.up()
+  expect(await exported(page)).toEqual(baseline)
+  await page.getByLabel('Ancho', { exact: true }).fill('6,5')
+  await page.getByRole('button', { name: 'Redimensionar A0: Derecha', exact: true }).click()
+  await expect(page.getByRole('dialog')).toContainText('Propiedades sin aplicar')
+  await page.getByRole('button', { name: 'Volver a editar', exact: true }).click()
+  await expect(page.getByLabel('Ancho', { exact: true })).toHaveValue('6,5')
+})
+
+test('superpone zonas al redimensionar sin cambiar su contenido y permite reabrirlas', async ({ page }) => {
+  await page.goto('/app')
+  await page.getByRole('button', { name: 'Añadir estantería', exact: true }).first().click()
+  await page.getByRole('button', { name: 'Añadir zona', exact: true }).click()
+  await page.getByRole('button', { name: 'Añadir zona', exact: true }).click()
+  await page.locator('.element-row[data-kind=zone]').first().click()
+  await page.getByRole('button', { name: 'Superior', exact: true }).click()
+  const before = await exported(page)
+  await drag(page, 'Z-01', 2)
+  await page.screenshot({ path: 'artifacts/redimensionar-zonas-superpuestas.png' })
+  await page.mouse.up()
+  const doc = await exported(page)
+  expect(doc.zones[0].widthMm).toBe(10000)
+  expect(doc.zones[1]).toEqual(before.zones[1]); expect(doc.racks).toEqual(before.racks)
+  await page.getByLabel('Abrir archivo de almacén').setInputFiles({ name: 'superpuestas.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(doc)) })
+  expect(await exported(page)).toEqual(doc)
+  await page.locator('.element-row[data-kind=zone]').last().click()
+  await expect(page.getByLabel('Código', { exact: true })).toHaveValue('Z-02')
+  await page.setViewportSize({ width: 1100, height: 740 })
+  await expect(page.getByRole('button', { name: /^Redimensionar Z-02:/ })).toHaveCount(4)
+  await page.screenshot({ path: 'artifacts/zonas-superpuestas-portatil.png' })
+})
+

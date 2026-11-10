@@ -1,0 +1,33 @@
+.landing-page { height: 100dvh; overflow: auto; background: var(--surface); color: var(--ink); }
+.landing-page a { color: inherit; text-decoration: none; }
+.landing-page a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+.landing-header { max-width: 1440px; margin: auto; padding: 24px clamp(20px, 5vw, 80px); display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.landing-brand { display: flex; align-items: center; gap: 12px; font-size: 21px; font-weight: 700; letter-spacing: -.6px; }
+.landing-brand img { border-radius: 8px; }
+.landing-header nav { display: flex; align-items: center; gap: 24px; }
+.landing-language { display: flex; gap: 8px; align-items: center; font-size: 12px; }
+.landing-language select { width: auto; }
+.landing-button { display: inline-flex; justify-content: center; align-items: center; gap: 24px; border: 1px solid var(--line); padding: 13px 20px; border-radius: 5px; font-size: 14px; font-weight: 600; }
+.landing-button:hover { background: var(--panel); }
+.landing-page .landing-primary { background: var(--accent); color: oklch(98% .006 165); border-color: var(--accent); }
+.landing-page .landing-primary:hover { background: oklch(32% .05 175); }
+.landing-hero { max-width: 1440px; margin: auto; padding: 60px clamp(20px, 5vw, 80px) 80px; display: grid; grid-template-columns: .85fr 1.3fr; gap: 48px; align-items: center; }
+.landing-pitch h1 { font-size: clamp(38px, 4.5vw, 64px); line-height: 1.06; letter-spacing: -2px; font-weight: 650; margin: 24px 0; max-width: 10ch; }
+.landing-pitch p { font-size: 18px; line-height: 1.65; color: var(--muted); max-width: 38ch; margin-bottom: 28px; }
+.landing-pitch small { display: block; font-size: 12px; color: var(--muted); margin-top: 16px; }
+.landing-preview { min-width: 0; margin: 0; }
+.landing-preview-label { display: flex; justify-content: space-between; padding: 14px 16px; font-size: 11px; background: oklch(27% .04 175); color: oklch(95% .01 165); border-radius: 7px 7px 0 0; }
+.landing-preview img { display: block; width: 100%; height: auto; border: 1px solid var(--line); box-shadow: 0 20px 40px oklch(30% .02 165 / .12); }
+.landing-preview figcaption { margin-top: 16px; color: var(--muted); font-size: 11px; }
+.landing-capabilities { background: var(--panel); padding: 64px max(24px, calc((100vw - 1280px) / 2)); display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+.landing-section-heading h2,.landing-local h2 { font-size: clamp(28px, 3vw, 40px); line-height: 1.2; letter-spacing: -1px; max-width: 20ch; margin: 20px 0; font-weight: 600; }
+.landing-capabilities ol { list-style: none; padding: 0; margin: 0; }
+.landing-capabilities li { display: flex; gap: 24px; padding: 24px 0; border-top: 1px solid var(--line); }
+.landing-step { color: var(--accent); font-size: 14px; padding-top: 4px; }
+.landing-capabilities h3 { margin: 0 0 10px; font-size: 20px; font-weight: 600; }
+.landing-capabilities p,.landing-local p { font-size: 14px; line-height: 1.75; color: var(--muted); max-width: 60ch; margin: 0; }
+.landing-local { max-width: 1280px; margin: auto; padding: 72px 24px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+.landing-local .landing-button { flex-shrink: 0; }
+.landing-footer { border-top: 1px solid var(--line); padding: 24px clamp(20px, 5vw, 80px); display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 12px; }
+@media(max-width:900px) { .landing-hero { grid-template-columns: 1fr; padding-top: 36px; gap: 36px; } .landing-pitch h1 { max-width: 15ch; } .landing-pitch p { max-width: 50ch; } .landing-capabilities { gap: 32px; } }
+@media(max-width:600px) { .landing-header { flex-wrap: wrap; gap: 20px; } .landing-header nav { width: 100%; justify-content: space-between; gap: 12px; } .landing-language>span { display: none; } .landing-capabilities { grid-template-columns: 1fr; padding: 40px 24px; } .landing-local { align-items: flex-start; flex-direction: column; padding: 48px 24px; } .landing-footer { flex-direction: column; } }

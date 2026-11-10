@@ -1,0 +1,94 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "next/**"
+      - ".github/workflows/deploy-production.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: warehouse-layout-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  Worker:
+    name: Deploy Cloudflare Worker (warehouse-layout)
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: next
+    env:
+      NODE_ENV: production
+      # Canonical HTTPS origin used by the prerender for canonical URLs, schema and sitemap.
+      # If unset, the build is marked noindex (preview build).
+      SITE_URL: ${{ vars.WAREHOUSE_LAYOUT_SITE_URL }}
+      SMOKE_URL: ${{ vars.WAREHOUSE_LAYOUT_SMOKE_URL }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: next/package-lock.json
+
+      - name: Locked install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npx vitest run
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish Worker to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: next
+          command: deploy
+          packageManager: npm
+
+      # ---------- POST-DEPLOY SMOKE (read-only) ----------
+      # Checks that the published Worker serves the prerendered pages and the 404 page.
+      # The URL comes from the WAREHOUSE_LAYOUT_SMOKE_URL variable (falls back to WAREHOUSE_LAYOUT_SITE_URL).
+      # If neither is set, it logs a warning and skips instead of failing the deploy.
+      - name: Post-deploy production smoke (read-only)
+        shell: bash
+        run: |
+          BASE="${SMOKE_URL:-${SITE_URL:-}}"
+          if [ -z "$BASE" ]; then
+            echo "::warning::No WAREHOUSE_LAYOUT_SMOKE_URL configured; skipping post-deploy smoke. Set WAREHOUSE_LAYOUT_SMOKE_URL to enforce this gate."
+            exit 0
+          fi
+          case "$BASE" in
+            http://*|https://*) ;;
+            *) BASE="https://$BASE" ;;
+          esac
+          BASE="${BASE%/}"
+          echo "SMOKE_BASE=$BASE"
+          code() { curl -sSL -o /dev/null -w '%{http_code}' --max-time 25 "$BASE$1"; }
+          code_root=$(code /)
+          code_en=$(code /en/)
+          code_app=$(code /app)
+          code_missing=$(code /__smoke-missing-page__)
+          echo "root=$code_root en=$code_en app=$code_app missing=$code_missing"
+          [ "$code_root" = "200" ] || { echo "SMOKE FAIL: / not 200 ($code_root)"; exit 1; }
+          [ "$code_en" = "200" ] || { echo "SMOKE FAIL: /en/ not 200 ($code_en)"; exit 1; }
+          [ "$code_app" = "200" ] || { echo "SMOKE FAIL: /app not 200 ($code_app)"; exit 1; }
+          [ "$code_missing" = "404" ] || { echo "SMOKE FAIL: unknown path expected 404, got $code_missing"; exit 1; }
+          echo "POST_DEPLOY_SMOKE_OK"

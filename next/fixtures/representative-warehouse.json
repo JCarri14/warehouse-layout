@@ -1,0 +1,6610 @@
+{
+  "format": "optiruta-warehouse",
+  "version": 1,
+  "id": "performance",
+  "name": "Muestra de 200 estanterías",
+  "widthMm": 150000,
+  "depthMm": 60000,
+  "racks": [
+    {
+      "id": "rack-0",
+      "code": "A0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-0-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-0-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-0-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-1",
+      "code": "A1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-1-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-1-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-1-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-2",
+      "code": "A2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-2-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-2-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-2-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-3",
+      "code": "A3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-3-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-3-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-3-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-4",
+      "code": "A4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-4-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-4-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-4-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-5",
+      "code": "A5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-5-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-5-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-5-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-6",
+      "code": "A6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-6-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-6-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-6-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-7",
+      "code": "A7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-7-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-7-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-7-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-8",
+      "code": "A8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-8-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-8-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-8-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-9",
+      "code": "A9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-9-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-9-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-9-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-10",
+      "code": "B0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-10-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-10-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-10-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-11",
+      "code": "B1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-11-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-11-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-11-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-12",
+      "code": "B2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-12-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-12-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-12-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-13",
+      "code": "B3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-13-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-13-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-13-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-14",
+      "code": "B4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-14-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-14-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-14-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-15",
+      "code": "B5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-15-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-15-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-15-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-16",
+      "code": "B6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-16-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-16-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-16-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-17",
+      "code": "B7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-17-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-17-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-17-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-18",
+      "code": "B8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-18-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-18-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-18-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-19",
+      "code": "B9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 2000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-19-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-19-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-19-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-20",
+      "code": "C0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-20-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-20-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-20-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-21",
+      "code": "C1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-21-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-21-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-21-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-22",
+      "code": "C2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-22-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-22-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-22-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-23",
+      "code": "C3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-23-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-23-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-23-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-24",
+      "code": "C4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-24-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-24-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-24-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-25",
+      "code": "C5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-25-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-25-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-25-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-26",
+      "code": "C6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-26-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-26-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-26-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-27",
+      "code": "C7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-27-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-27-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-27-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-28",
+      "code": "C8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-28-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-28-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-28-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-29",
+      "code": "C9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-29-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-29-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-29-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-30",
+      "code": "D0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-30-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-30-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-30-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-31",
+      "code": "D1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-31-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-31-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-31-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-32",
+      "code": "D2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-32-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-32-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-32-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-33",
+      "code": "D3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-33-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-33-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-33-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-34",
+      "code": "D4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-34-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-34-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-34-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-35",
+      "code": "D5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-35-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-35-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-35-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-36",
+      "code": "D6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-36-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-36-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-36-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-37",
+      "code": "D7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-37-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-37-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-37-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-38",
+      "code": "D8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-38-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-38-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-38-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-39",
+      "code": "D9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 7000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-39-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-39-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-39-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-40",
+      "code": "E0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-40-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-40-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-40-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-41",
+      "code": "E1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-41-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-41-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-41-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-42",
+      "code": "E2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-42-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-42-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-42-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-43",
+      "code": "E3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-43-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-43-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-43-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-44",
+      "code": "E4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-44-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-44-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-44-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-45",
+      "code": "E5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-45-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-45-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-45-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-46",
+      "code": "E6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-46-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-46-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-46-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-47",
+      "code": "E7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-47-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-47-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-47-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-48",
+      "code": "E8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-48-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-48-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-48-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-49",
+      "code": "E9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-49-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-49-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-49-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-50",
+      "code": "F0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-50-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-50-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-50-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-51",
+      "code": "F1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-51-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-51-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-51-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-52",
+      "code": "F2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-52-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-52-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-52-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-53",
+      "code": "F3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-53-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-53-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-53-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-54",
+      "code": "F4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-54-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-54-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-54-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-55",
+      "code": "F5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-55-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-55-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-55-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-56",
+      "code": "F6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-56-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-56-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-56-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-57",
+      "code": "F7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-57-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-57-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-57-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-58",
+      "code": "F8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-58-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-58-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-58-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-59",
+      "code": "F9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 12000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-59-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-59-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-59-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-60",
+      "code": "G0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-60-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-60-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-60-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-61",
+      "code": "G1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-61-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-61-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-61-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-62",
+      "code": "G2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-62-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-62-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-62-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-63",
+      "code": "G3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-63-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-63-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-63-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-64",
+      "code": "G4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-64-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-64-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-64-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-65",
+      "code": "G5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-65-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-65-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-65-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-66",
+      "code": "G6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-66-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-66-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-66-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-67",
+      "code": "G7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-67-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-67-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-67-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-68",
+      "code": "G8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-68-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-68-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-68-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-69",
+      "code": "G9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-69-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-69-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-69-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-70",
+      "code": "H0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-70-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-70-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-70-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-71",
+      "code": "H1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-71-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-71-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-71-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-72",
+      "code": "H2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-72-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-72-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-72-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-73",
+      "code": "H3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-73-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-73-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-73-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-74",
+      "code": "H4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-74-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-74-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-74-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-75",
+      "code": "H5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-75-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-75-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-75-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-76",
+      "code": "H6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-76-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-76-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-76-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-77",
+      "code": "H7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-77-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-77-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-77-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-78",
+      "code": "H8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-78-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-78-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-78-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-79",
+      "code": "H9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 17000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-79-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-79-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-79-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-80",
+      "code": "I0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-80-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-80-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-80-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-81",
+      "code": "I1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-81-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-81-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-81-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-82",
+      "code": "I2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-82-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-82-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-82-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-83",
+      "code": "I3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-83-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-83-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-83-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-84",
+      "code": "I4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-84-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-84-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-84-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-85",
+      "code": "I5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-85-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-85-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-85-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-86",
+      "code": "I6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-86-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-86-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-86-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-87",
+      "code": "I7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-87-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-87-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-87-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-88",
+      "code": "I8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-88-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-88-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-88-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-89",
+      "code": "I9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-89-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-89-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-89-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-90",
+      "code": "J0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-90-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-90-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-90-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-91",
+      "code": "J1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-91-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-91-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-91-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-92",
+      "code": "J2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-92-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-92-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-92-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-93",
+      "code": "J3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-93-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-93-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-93-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-94",
+      "code": "J4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-94-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-94-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-94-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-95",
+      "code": "J5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-95-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-95-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-95-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-96",
+      "code": "J6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-96-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-96-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-96-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-97",
+      "code": "J7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-97-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-97-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-97-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-98",
+      "code": "J8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-98-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-98-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-98-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-99",
+      "code": "J9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 22000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-99-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-99-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-99-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-100",
+      "code": "K0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-100-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-100-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-100-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-101",
+      "code": "K1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-101-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-101-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-101-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-102",
+      "code": "K2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-102-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-102-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-102-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-103",
+      "code": "K3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-103-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-103-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-103-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-104",
+      "code": "K4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-104-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-104-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-104-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-105",
+      "code": "K5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-105-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-105-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-105-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-106",
+      "code": "K6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-106-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-106-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-106-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-107",
+      "code": "K7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-107-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-107-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-107-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-108",
+      "code": "K8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-108-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-108-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-108-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-109",
+      "code": "K9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-109-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-109-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-109-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-110",
+      "code": "L0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-110-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-110-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-110-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-111",
+      "code": "L1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-111-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-111-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-111-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-112",
+      "code": "L2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-112-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-112-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-112-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-113",
+      "code": "L3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-113-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-113-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-113-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-114",
+      "code": "L4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-114-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-114-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-114-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-115",
+      "code": "L5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-115-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-115-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-115-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-116",
+      "code": "L6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-116-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-116-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-116-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-117",
+      "code": "L7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-117-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-117-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-117-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-118",
+      "code": "L8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-118-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-118-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-118-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-119",
+      "code": "L9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 27000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-119-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-119-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-119-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-120",
+      "code": "M0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-120-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-120-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-120-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-121",
+      "code": "M1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-121-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-121-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-121-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-122",
+      "code": "M2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-122-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-122-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-122-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-123",
+      "code": "M3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-123-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-123-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-123-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-124",
+      "code": "M4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-124-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-124-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-124-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-125",
+      "code": "M5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-125-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-125-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-125-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-126",
+      "code": "M6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-126-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-126-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-126-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-127",
+      "code": "M7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-127-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-127-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-127-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-128",
+      "code": "M8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-128-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-128-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-128-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-129",
+      "code": "M9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-129-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-129-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-129-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-130",
+      "code": "N0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-130-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-130-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-130-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-131",
+      "code": "N1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-131-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-131-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-131-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-132",
+      "code": "N2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-132-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-132-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-132-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-133",
+      "code": "N3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-133-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-133-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-133-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-134",
+      "code": "N4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-134-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-134-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-134-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-135",
+      "code": "N5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-135-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-135-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-135-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-136",
+      "code": "N6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-136-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-136-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-136-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-137",
+      "code": "N7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-137-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-137-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-137-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-138",
+      "code": "N8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-138-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-138-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-138-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-139",
+      "code": "N9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 32000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-139-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-139-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-139-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-140",
+      "code": "O0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-140-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-140-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-140-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-141",
+      "code": "O1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-141-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-141-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-141-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-142",
+      "code": "O2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-142-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-142-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-142-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-143",
+      "code": "O3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-143-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-143-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-143-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-144",
+      "code": "O4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-144-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-144-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-144-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-145",
+      "code": "O5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-145-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-145-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-145-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-146",
+      "code": "O6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-146-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-146-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-146-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-147",
+      "code": "O7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-147-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-147-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-147-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-148",
+      "code": "O8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-148-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-148-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-148-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-149",
+      "code": "O9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-149-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-149-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-149-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-150",
+      "code": "P0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-150-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-150-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-150-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-151",
+      "code": "P1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-151-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-151-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-151-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-152",
+      "code": "P2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-152-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-152-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-152-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-153",
+      "code": "P3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-153-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-153-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-153-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-154",
+      "code": "P4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-154-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-154-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-154-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-155",
+      "code": "P5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-155-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-155-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-155-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-156",
+      "code": "P6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-156-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-156-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-156-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-157",
+      "code": "P7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-157-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-157-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-157-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-158",
+      "code": "P8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-158-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-158-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-158-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-159",
+      "code": "P9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 37000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-159-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-159-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-159-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-160",
+      "code": "Q0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-160-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-160-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-160-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-161",
+      "code": "Q1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-161-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-161-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-161-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-162",
+      "code": "Q2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-162-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-162-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-162-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-163",
+      "code": "Q3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-163-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-163-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-163-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-164",
+      "code": "Q4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-164-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-164-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-164-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-165",
+      "code": "Q5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-165-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-165-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-165-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-166",
+      "code": "Q6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-166-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-166-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-166-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-167",
+      "code": "Q7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-167-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-167-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-167-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-168",
+      "code": "Q8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-168-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-168-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-168-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-169",
+      "code": "Q9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-169-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-169-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-169-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-170",
+      "code": "R0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-170-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-170-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-170-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-171",
+      "code": "R1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-171-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-171-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-171-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-172",
+      "code": "R2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-172-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-172-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-172-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-173",
+      "code": "R3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-173-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-173-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-173-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-174",
+      "code": "R4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-174-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-174-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-174-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-175",
+      "code": "R5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-175-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-175-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-175-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-176",
+      "code": "R6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-176-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-176-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-176-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-177",
+      "code": "R7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-177-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-177-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-177-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-178",
+      "code": "R8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-178-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-178-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-178-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-179",
+      "code": "R9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 42000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-179-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-179-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-179-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-180",
+      "code": "S0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 1000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-180-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-180-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-180-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-181",
+      "code": "S1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 8000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-181-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-181-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-181-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-182",
+      "code": "S2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 15000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-182-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-182-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-182-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-183",
+      "code": "S3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 22000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-183-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-183-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-183-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-184",
+      "code": "S4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 29000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-184-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-184-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-184-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-185",
+      "code": "S5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 36000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-185-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-185-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-185-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-186",
+      "code": "S6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 43000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-186-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-186-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-186-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-187",
+      "code": "S7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 50000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-187-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-187-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-187-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-188",
+      "code": "S8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 57000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-188-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-188-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-188-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-189",
+      "code": "S9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 64000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-189-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-189-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-189-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-190",
+      "code": "T0",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 71000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-190-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-190-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-190-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-191",
+      "code": "T1",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 78000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-191-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-191-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-191-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-192",
+      "code": "T2",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 85000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-192-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-192-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-192-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-193",
+      "code": "T3",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 92000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-193-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-193-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-193-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-194",
+      "code": "T4",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 99000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-194-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-194-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-194-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-195",
+      "code": "T5",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 106000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-195-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-195-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-195-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-196",
+      "code": "T6",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 113000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "shelves",
+      "levels": [
+        {
+          "id": "level-196-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-196-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-196-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-197",
+      "code": "T7",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 120000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "pallets",
+      "levels": [
+        {
+          "id": "level-197-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-197-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-197-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-198",
+      "code": "T8",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 127000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "bins",
+      "levels": [
+        {
+          "id": "level-198-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-198-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-198-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    },
+    {
+      "id": "rack-199",
+      "code": "T9",
+      "alias": "",
+      "color": "#337b78",
+      "xMm": 134000,
+      "yMm": 47000,
+      "widthMm": 6000,
+      "depthMm": 1200,
+      "heightMm": 3000,
+      "rotation": 0,
+      "columns": 3,
+      "access": "front",
+      "reverse": false,
+      "contents": "cartons",
+      "levels": [
+        {
+          "id": "level-199-0",
+          "code": "00",
+          "elevationMm": 0
+        },
+        {
+          "id": "level-199-1",
+          "code": "01",
+          "elevationMm": 1400
+        },
+        {
+          "id": "level-199-2",
+          "code": "02",
+          "elevationMm": 2800
+        }
+      ]
+    }
+  ]
+}

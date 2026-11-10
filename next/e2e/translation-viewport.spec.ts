@@ -1,0 +1,70 @@
+import { test } from './fixtures'
+import { expect } from '@playwright/test'
+import { changeLanguage, warehouseAction } from './helpers'
+
+test('visores sin encabezados duplicados y cotas en la unidad elegida en ambos idiomas', async ({ page }) => {
+  await page.goto('/app')
+  await warehouseAction(page, 'Abrir ejemplo')
+  const name = await page.getByLabel('Nombre del almacén', { exact: true }).inputValue()
+  await expect(page.locator('.canvas-label')).toHaveCount(0)
+  await changeLanguage(page, 'en')
+  await expect(page.locator('.document-title')).toContainText(name)
+  await expect(page.locator('.status-bar')).toContainText(`Opened: ${name}. Data stays on this device.`)
+  await page.locator('.element-row').first().click()
+  await page.locator('.measurement-settings>button').click()
+  await page.getByLabel('Measurement unit', { exact: true }).selectOption('ft')
+  await page.locator('.measurement-settings>button').click()
+  await page.getByRole('tab', { name: 'Levels', exact: true }).click()
+  await expect(page.locator('.levels-heading')).toContainText('Elevation (ft)')
+  await changeLanguage(page, 'es')
+  await expect(page.locator('.levels-heading')).toContainText('Cota (ft)')
+  await changeLanguage(page, 'en')
+  for (const mode of ['Inventory', 'Work orders', 'Routes', 'Reports']) {
+    await page.getByRole('button', { name: mode, exact: true }).click()
+    await expect(page.locator('.operations-plan canvas')).toBeVisible()
+    await expect(page.locator('.canvas-label')).toHaveCount(0)
+    await expect(page.locator('.document-title')).toContainText(name)
+  }
+  await page.getByRole('button', { name: 'Design', exact: true }).click()
+  await page.screenshot({ path: 'artifacts/visor-sin-titulo-en.png' })
+})
+
+test('errores adicionales de importación usan una frase completa traducida', async ({ page }) => {
+  await page.goto('/app')
+  await changeLanguage(page, 'en')
+  await page.getByRole('button', { name: 'Inventory', exact: true }).click()
+  const csv = 'referencia;descripcion;ubicacion;cantidad\n' + Array.from({ length: 12 }, (_, i) => `R${i};Articulo;A10101;invalida`).join('\n')
+  await page.getByLabel('Inventory file').setInputFiles({ name: 'errores.csv', mimeType: 'text/csv', buffer: Buffer.from(csv) })
+  await expect(page.getByRole('dialog')).toContainText('And 2 more errors.')
+  await page.getByRole('dialog').getByRole('button', { name: 'Close import', exact: true }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await changeLanguage(page, 'es')
+  await page.getByLabel('Archivo de inventario').setInputFiles({ name: 'errores.csv', mimeType: 'text/csv', buffer: Buffer.from(csv) })
+  await expect(page.getByRole('dialog')).toContainText('Y 2 errores más.')
+})
+
+test('pistas de arrastre válido, inválido y cancelado se muestran en inglés', async ({ page }) => {
+  await page.goto('/app')
+  await page.getByRole('button', { name: 'Añadir estantería', exact: true }).first().click()
+  await changeLanguage(page, 'en')
+  await expect(page.locator('.status-bar')).toContainText('Add rack.')
+  await page.getByRole('button', { name: 'Top', exact: true }).click()
+  const box = (await page.locator('.canvas-panel canvas').boundingBox())!
+  const half = Math.max(34 / 2 * 1.15 + 2, (32 / 2 * 1.15 + 2) / (box.width / box.height)), scale = box.height / (2 * half)
+  const point = (x: number, y: number) => ({ x: box.x + box.width / 2 + (x - 16) * scale, y: box.y + box.height / 2 + (y - 17) * scale })
+  const start = point(4, 1.6), valid = point(5, 2.6), invalid = point(-1, 1.6)
+  await page.mouse.move(start.x, start.y); await page.mouse.down()
+  await page.mouse.move(valid.x, valid.y, { steps: 5 })
+  await expect(page.locator('.drag-status')).toContainText('Release to place')
+  await page.mouse.move(invalid.x, invalid.y, { steps: 5 })
+  await expect(page.locator('.drag-status')).toContainText('Invalid position · The previous position will be kept')
+  await page.keyboard.press('Escape'); await page.mouse.up()
+  await expect(page.locator('.status-bar')).toContainText('Move cancelled.')
+  await page.getByRole('button', { name: 'Undo', exact: true }).click()
+  await expect(page.locator('.status-bar')).toContainText('Undone: Add rack.')
+  await changeLanguage(page, 'es')
+  await expect(page.locator('.status-bar')).toContainText('Deshecho: Añadir estantería.')
+  await page.getByRole('button', { name: 'Rehacer', exact: true }).click()
+  await expect(page.locator('.status-bar')).toContainText('Rehecho: Añadir estantería.')
+})
+

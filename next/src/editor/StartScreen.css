@@ -1,0 +1,48 @@
+.start-screen { flex: 1; min-height: 0; overflow: auto; display: grid; grid-template-columns: minmax(280px, .8fr) minmax(360px, 1.2fr); background: var(--surface); }
+.start-intro { padding: 44px clamp(24px, 5vw, 80px); background: var(--panel); display: flex; flex-direction: column; align-items: flex-start; }
+.start-intro h1 { font-size: 30px; letter-spacing: -.8px; margin: 12px 0; font-weight: 600; }
+.start-intro>p,.start-empty p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+.start-rack { width: 280px; max-width: 100%; height: 220px; align-self: center; margin: 24px 0;  }
+.start-rack-slot { width: 280px; max-width: 100%; height: 220px; align-self: center; margin: 24px 0; }
+.start-rack-slot .start-rack { margin: 0; }
+@media(max-width:800px) { .start-rack-slot { display: none; } }
+.start-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 300px; }
+.start-actions button { justify-content: center; min-height: 40px; }
+.start-continue { margin: 24px 0; background: transparent; border-color: transparent; padding-left: 0; color: var(--accent); }
+.start-preference { margin-top: auto; line-height: 1.6; }
+.start-recents { padding: 44px clamp(24px, 4vw, 64px); min-width: 0; }
+.start-recents-heading { display: flex; justify-content: space-between; gap: 15px; align-items: baseline; }
+.start-recents-heading h2 { font-size: 19px; font-weight: 600; margin: 0; }
+.start-recents-heading span,.start-storage-note { font-size: 11px; color: var(--muted); }
+.start-storage-note { line-height: 1.7; max-width: 65ch; margin: 14px 0 26px; }
+.recent-list { padding: 0; margin: 0; list-style: none; }
+.recent-list li { border-top: 1px solid var(--line); position: relative; padding: 8px 0; }
+.recent-open { width: 100%; min-width: 0; border: 0; background: transparent; text-align: left; gap: 16px; padding: 12px 4px; }
+.recent-open>span { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 0; }
+.recent-open strong { font-size: 14px; overflow-wrap: anywhere; font-weight: 600; }
+.recent-open small { color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+.recent-thumbnail { width: 70px; height: 64px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 3px; }
+.recent-options { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+.recent-options .text-button { font-size: 11px; }
+.start-empty { padding: 45px 0; color: var(--muted); }
+.start-empty h3 { color: var(--ink); font-size: 16px; margin-top: 18px; }
+@media(max-width:800px) { .start-screen { grid-template-columns: 1fr; } .start-intro { padding: 24px; } .start-rack { display: none; } .start-actions { margin-top: 20px; } .start-recents { padding: 24px; } }
+@media(prefers-reduced-motion:reduce) { .start-rack { animation: none; } }
+
+/* Work first: a real plan preview replaces the decorative 3D scene. */
+.start-screen { grid-template-columns: minmax(300px, .75fr) minmax(360px, 1.25fr); }
+.start-intro { padding: 36px clamp(24px, 4vw, 60px); }
+.start-current { margin: 24px 0; width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 10px; }
+.start-current .recent-thumbnail { width: 100%; height: 160px; padding: 12px; background: var(--surface); }
+.start-current>strong { font-size: 17px; overflow-wrap: anywhere; font-weight: 600; }
+.start-current>small { color: var(--muted); font-size: 12px; }
+.start-current .start-continue { margin: 6px 0 0; padding: 12px; justify-content: space-between; background: var(--accent); color: var(--surface); }
+.start-actions { max-width: 360px; }
+.start-about { display: block; margin-top: 28px; color: var(--accent); font-size: 12px; text-underline-offset: 3px; }
+.start-about:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.start-link-note { display: block; color: var(--muted); font-size: 11px; margin-top: 6px; }
+.recent-open .recent-thumbnail { width: 112px; height: 92px; padding: 6px; }
+.start-empty { border-top: 1px solid var(--line); }
+.start-empty button { margin-top: 20px; }
+@media(max-width:800px) { .start-screen { grid-template-columns: 1fr; } .start-current { max-width: none; } .start-current .recent-thumbnail { height: 130px; } .start-actions { max-width: none; } .start-about { margin-top: 20px; } }
+@media(max-width:400px) { .recent-open { gap: 10px; } .recent-open .recent-thumbnail { width: 76px; height: 76px; } }

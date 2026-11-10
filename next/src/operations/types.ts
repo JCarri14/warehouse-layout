@@ -1,0 +1,11 @@
+export type DataLine = { id: string; reference: string; description: string; location: string; quantity: number; origin: string }
+export type OrderDraftLine = Omit<DataLine, 'quantity'> & { quantityText: string }
+export type DataSet = { name: string; lines: DataLine[] }
+export type OrderDraft = { name: string; lines: OrderDraftLine[] }
+export type Point = { xMm: number; yMm: number }
+export type RouteSettings = { start: Point; end: Point; returnToStart: boolean; cellSizeMm: number }
+export type RouteStop = { index: number; point: Point; lines: DataLine[]; distanceMm: number; rackIds: string[] }
+export type RouteResult = { path: Point[]; stops: RouteStop[]; distanceMm: number; exact: boolean; cellSizeMm: number; warnings: string[] }
+export type OperationMode = 'design' | 'inventory' | 'order' | 'route' | 'reports'
+export type PendingEdit = { warehouseId: string; elementId: string | null; values: Record<string, unknown> }
+export type WorkspaceSnapshot = { warehouse: import('../warehouse/document').WarehouseDocument; selected: string | null; inventory: DataSet; order: OrderDraft; settings: RouteSettings | null; mode: OperationMode; savedWarehouse: string; savedOrder: string; pendingEdit?: PendingEdit }
