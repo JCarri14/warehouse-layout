@@ -26,17 +26,16 @@ jobs:
       run:
         working-directory: next
     env:
-      NODE_ENV: production
       # Canonical HTTPS origin used by the prerender for canonical URLs, schema and sitemap.
       # If unset, the build is marked noindex (preview build).
       SITE_URL: ${{ vars.WAREHOUSE_LAYOUT_SITE_URL }}
       SMOKE_URL: ${{ vars.WAREHOUSE_LAYOUT_SMOKE_URL }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 24
           cache: npm
