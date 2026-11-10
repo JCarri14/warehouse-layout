@@ -15,6 +15,13 @@ playwright-report/
 artifacts/
 *.local
 
+# Local secrets and Wrangler state
+.env
+.env.*
+!.env.example
+.dev.vars*
+.wrangler/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

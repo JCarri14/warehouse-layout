@@ -1,0 +1,6 @@
+# Local secrets and Wrangler state
+.env
+.env.*
+!.env.example
+.dev.vars*
+.wrangler/

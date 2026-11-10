@@ -19,6 +19,8 @@ concurrency:
 jobs:
   Worker:
     name: Deploy Cloudflare Worker (warehouse-layout)
+    # Manual dispatch can target any ref; only main may deploy to production.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: production
     timeout-minutes: 20
