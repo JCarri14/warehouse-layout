@@ -1,6 +1,9 @@
 name = "warehouse-layout"
 compatibility_date = "2026-11-01"
 
+[observability]
+enabled = false
+
 # Static-only Worker: serves the Vite + prerender output, no server code.
 [assets]
 directory = "./dist"
