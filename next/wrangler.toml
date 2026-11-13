@@ -1,8 +1,10 @@
 name = "warehouse-layout"
 compatibility_date = "2026-11-01"
 
-[observability]
-enabled = false
+[observability.logs]
+enabled = true
+invocation_logs = true
+persist = true
 
 # Static-only Worker: serves the Vite + prerender output, no server code.
 [assets]
