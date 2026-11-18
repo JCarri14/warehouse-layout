@@ -10,7 +10,8 @@ import { resolveLocation, type ResolvedLocation } from '../warehouse/locations'
 import { WarehouseViewport } from '../viewport/WarehouseViewport'
 import { ImportDialog } from './ImportDialog'
 import { DataTable } from './DataTable'
-import { draftToLines, formatQuantity, readTables, validateDataLines, type ImportTable } from './imports'
+import { draftToLines, formatQuantity, validateDataLines, type ImportTable } from './imports'
+import { readTablesInBackground } from './workerTask'
 import { decodeOrder, encodeOrder, validateOrderDraft } from './orders'
 import { downloadBlob } from './downloads'
 import { RoutePanel } from './RoutePanel'
@@ -54,6 +55,8 @@ export function OperationsPanel(p: Props) {
   const [reportKind, setReportKind] = useState<'warehouse' | 'inventory' | 'order' | 'route'>(p.route ? 'route' : 'warehouse'), [exporting, setExporting] = useState(false)
   const inventoryPicker = useRef<HTMLInputElement>(null), orderPicker = useRef<HTMLInputElement>(null), draftPicker = useRef<HTMLInputElement>(null)
   const candidateDialog = useRef<HTMLElement>(null)
+  const readTask = useRef<{ cancel(): void } | null>(null)
+  useEffect(() => () => { readTask.current?.cancel(); readTask.current = null }, [])
   useEffect(() => {
     if (!openCandidate) return
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null
@@ -76,9 +79,13 @@ export function OperationsPanel(p: Props) {
   const selectedRack = p.warehouse.racks.some(r => r.id === p.selected) ? p.selected : null
   const read = async (file: File | undefined, kind: 'inventory' | 'order') => {
     if (!file) return
+    readTask.current?.cancel()
+    const task = readTablesInBackground(file)
+    readTask.current = task
     setReading(true)
-    try { setImporting({ tables: await readTables(file), fileName: file.name, kind }) } catch (e) { p.notify((e as Error).message, true) }
-    finally { setReading(false) }
+    try { const tables = await task.promise; if (readTask.current === task) setImporting({ tables, fileName: file.name, kind }) }
+    catch (e) { if ((e as Error).name !== 'AbortError') p.notify((e as Error).message, true) }
+    finally { if (readTask.current === task) { readTask.current = null; setReading(false) } }
   }
   const saveOrder = () => {
     try { downloadBlob(`${p.order.name || t('OT')}.optiruta-ot.json`, new Blob([encodeOrder(p.order, p.warehouse.id)], { type: 'application/json' })); p.onOrderSaved(); p.notify(t('OT generada para descargar, incluidas sus líneas pendientes de corregir.')) }

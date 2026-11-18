@@ -408,6 +408,7 @@ No se ha podido actualizar la copia local. Guarda archivos independientes; el na
 No se ha podido leer la copia local. Puede estar dañada o el almacenamiento no está disponible.|The local copy could not be read. It may be damaged or storage may be unavailable.
 No se pudieron preparar los datos para el cálculo.|The calculation data could not be prepared.
 No se pudo calcular la ruta.|The route could not be calculated.
+No se pudo leer el archivo.|The file could not be read.
 No se pudo iniciar el cálculo. Vuelve a intentarlo.|Calculation could not start. Try again.
 No se pudo leer la copia local|The local copy could not be read
 No se pudo reconstruir el pasillo.|The aisle path could not be reconstructed.

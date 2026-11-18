@@ -6,6 +6,7 @@ import { resolveLocation } from '../warehouse/locations'
 import { draftToLines, formatQuantity } from './imports'
 import { automaticRouteCellSize, defaultRouteSettings, pointIsFree } from './routing'
 import type { OrderDraft, RouteResult, RouteSettings } from './types'
+import { runWorkerTask, WorkerReplyError } from './workerTask'
 import './RoutePanel.css'
 
 type Props = {
@@ -35,7 +36,7 @@ export function RoutePanel({ picking, onMark, onCancelMark, onCoordinateDirty, w
   const fieldErrors = form.key === settingsKey ? form.errors : {}
   const [busyKey, setBusyKey] = useState<string | null>(null)
   const [notice, setNotice] = useState({ key: '', text: '' })
-  const worker = useRef<Worker | null>(null)
+  const task = useRef<{ cancel(): void } | null>(null)
   const runId = useRef(0)
   const callbacks = useRef({ onResult, onError })
   // Content identity, rather than render identity, prevents local status updates from cancelling work.
@@ -47,14 +48,14 @@ export function RoutePanel({ picking, onMark, onCancelMark, onCoordinateDirty, w
   useLayoutEffect(() => { callbacks.current = { onResult, onError }; latestKey.current = inputKey }, [onResult, onError, inputKey])
   useEffect(() => {
     runId.current++
-    worker.current?.terminate(); worker.current = null
+    task.current?.cancel(); task.current = null
     // A changed input cancels this external worker session, including its displayed progress.
     // oxlint-disable-next-line react/set-state-in-effect
     setBusyKey(null)
     setNotice({ key: inputKey, text: '' })
     // The reference intentionally tracks the currently active worker, which may be created after this effect.
     // oxlint-disable-next-line react-hooks/exhaustive-deps
-    return () => { runId.current++; worker.current?.terminate(); worker.current = null }
+    return () => { runId.current++; task.current?.cancel(); task.current = null }
   }, [inputKey])
   const validation = useMemo(() => {
     try {
@@ -84,28 +85,28 @@ export function RoutePanel({ picking, onMark, onCancelMark, onCoordinateDirty, w
     onSettings({ start: { xMm: values.startX, yMm: values.startY }, end: { xMm: values.endX, yMm: values.endY }, returnToStart: draft.closed, cellSizeMm: size })
     setStatus(t('Opciones aplicadas. Calcula la ruta para actualizar el recorrido.'))
   }
-  const cancel = () => { runId.current++; worker.current?.terminate(); worker.current = null; setBusyKey(null); setStatus(t('Cálculo cancelado.')) }
+  const cancel = () => { runId.current++; task.current?.cancel(); task.current = null; setBusyKey(null); setStatus(t('Cálculo cancelado.')) }
   const calculate = () => {
     if (!effective || dirty || !validation.lines.length || validation.errors.length) return
-    worker.current?.terminate()
+    task.current?.cancel()
     const id = ++runId.current, key = inputKey
-    let instance: Worker
-    try { instance = new Worker(new URL('./route.worker.ts', import.meta.url), { type: 'module' }) }
+    let current: ReturnType<typeof runWorkerTask<unknown, RouteResult>>
+    try { current = runWorkerTask<unknown, RouteResult>(() => new Worker(new URL('./route.worker.ts', import.meta.url), { type: 'module' }), { warehouse, lines: validation.lines, settings: effective, language: getLanguage() }) }
     catch { const message = t('No se pudo iniciar el cálculo. Vuelve a intentarlo.'); setStatus(message); onError(message); return }
-    worker.current = instance; setBusyKey(inputKey); setStatus(t('Calculando los pasillos y el orden de recogida…'))
-    const finish = () => { instance.terminate(); if (worker.current === instance) worker.current = null; setBusyKey(null) }
-    instance.onmessage = (event: MessageEvent<{ ok: true; result: RouteResult } | { ok: false; message: string }>) => {
-      if (id !== runId.current || key !== latestKey.current) { instance.terminate(); return }
+    task.current = current; setBusyKey(inputKey); setStatus(t('Calculando los pasillos y el orden de recogida…'))
+    const finish = () => { if (task.current === current) task.current = null; setBusyKey(null) }
+    current.promise.then(result => {
+      if (id !== runId.current || key !== latestKey.current) return
+      finish(); callbacks.current.onResult(result); setStatus(t('Ruta calculada.'))
+    }, (error: unknown) => {
+      if (id !== runId.current || key !== latestKey.current) return
       finish()
-      if (event.data.ok) { callbacks.current.onResult(event.data.result); setStatus(t('Ruta calculada.')) }
-      else { setStatus(event.data.message); callbacks.current.onError(event.data.message) }
-    }
-    instance.onerror = () => {
-      if (id !== runId.current || key !== latestKey.current) { instance.terminate(); return }
-      finish(); const message = t('El cálculo no pudo completarse. Revisa las opciones o vuelve a intentarlo.'); setStatus(message); callbacks.current.onError(message)
-    }
-    try { instance.postMessage({ warehouse, lines: validation.lines, settings: effective, language: getLanguage() }); if (!settings || settings.cellSizeMm !== effective.cellSizeMm) onSettings(effective) }
-    catch { finish(); const message = t('No se pudieron preparar los datos para el cálculo.'); setStatus(message); onError(message) }
+      const message = error instanceof WorkerReplyError ? error.message
+        : (error as Error | undefined)?.name === 'DataCloneError' ? t('No se pudieron preparar los datos para el cálculo.')
+        : t('El cálculo no pudo completarse. Revisa las opciones o vuelve a intentarlo.')
+      setStatus(message); callbacks.current.onError(message)
+    })
+    if (!settings || settings.cellSizeMm !== effective.cellSizeMm) onSettings(effective)
   }
   const focusStop = (index: number) => {
     const stop = result?.stops[index]
