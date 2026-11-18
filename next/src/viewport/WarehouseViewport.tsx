@@ -1,4 +1,5 @@
-import { RackAppearance } from './rackAppearance'
+import { RackAppearance, combineDimmable, type Dimmable } from './rackAppearance'
+import { RackBatches } from './rackBatches'
 import { designFocusIds } from './designFocus'
 import { SceneLayers } from './sceneLayers'
 import { installElementResize } from './elementResizeInteraction'
@@ -49,7 +50,17 @@ export function WarehouseViewport(props: Props) {
     const light = new THREE.DirectionalLight('#fff5df', 2); light.position.set(15, 30, 10); scene.add(light)
     const group = new THREE.Group(); scene.add(group)
     const layers = new SceneLayers(group)
-    const appearances = new Map<string, RackAppearance>()
+    const appearances = new Map<string, Dimmable>()
+    // Per-rack label/access appearances of batched racks, kept while their `rack-labels:` layer is reused.
+    const labelAppearances = new Map<string, RackAppearance>()
+    let rackBatches: RackBatches | null = null
+    if (import.meta.env.DEV) Object.assign(window, { __viewportDebug: {
+      /** Current instance colour (hex) of a batched rack body, or null when it is not in the batch. */
+      rackColor: (id: string) => {
+        const bodies = rackBatches?.objects[0] as THREE.InstancedMesh | undefined, index = bodies?.userData.ids.indexOf(id) ?? -1
+        return bodies && index >= 0 ? bodies.getColorAt(index, new THREE.Color()).getHexString() : null
+      },
+    } })
     let matchingRacks: Set<string> | null = contextRef.current.rackMatches == null ? null : new Set(contextRef.current.rackMatches)
     const applyAppearances = () => {
       let changed = false
@@ -93,7 +104,7 @@ export function WarehouseViewport(props: Props) {
       elementResizer?.updateHandles()
       renderer.render(scene, camera)
     }
-    const disposeGroup = () => { layers.dispose(); appearances.clear(); scene.remove(group) }
+    const disposeGroup = () => { layers.dispose(); appearances.clear(); labelAppearances.clear(); rackBatches = null; scene.remove(group) }
     function box(w: number, h: number, d: number, x: number, y: number, z: number, color: string, id?: string) {
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({ color, roughness: .85, metalness: .05 }))
       mesh.position.set(x, y, z); mesh.userData.id = id; group.add(mesh); return mesh
@@ -137,8 +148,29 @@ export function WarehouseViewport(props: Props) {
         appearances.set(zone.id, new RackAppearance(group.children.slice(start)))
         })
       }
+      const detailed = contextRef.current.representation === 'detailed' && contextRef.current.view === 'iso'
+      if (detailed) rackBatches = null
+      else {
+        // Blocks mode: every non-selected rack shares three batched objects; labels and access lines stay per rack.
+        const batchExclude = document.racks.some(rack => rack.id === selection) ? selection : null
+        layers.use('rack-batch', [document.racks, batchExclude, detailed], () => {
+          rackBatches = new RackBatches(document.racks, { mode: 'blocks', exclude: batchExclude })
+          for (const object of rackBatches.objects) group.add(object)
+        })
+        for (const rack of document.racks) {
+          if (rack.id === selection) continue
+          layers.use(`rack-labels:${rack.id}`, [rack, currentLanguage], () => {
+            const start = group.children.length
+            const b = footprint(rack), x = b.x / 1000, z = b.y / 1000, w = b.w / 1000, d = b.d / 1000, h = elementHeight(rack) / 1000
+            label(rack.code, x + w / 2, h + .8, z + d / 2, false)
+            drawAccess(group, rack, false, focused, label)
+            labelAppearances.set(rack.id, new RackAppearance(group.children.slice(start)))
+          })
+          appearances.set(rack.id, combineDimmable([rackBatches!.appearance(rack.id)!, labelAppearances.get(rack.id)!]))
+        }
+      }
       for (const rack of document.racks) {
-        const detailed = contextRef.current.representation === 'detailed' && contextRef.current.view === 'iso'
+        if (!detailed && rack.id !== selection) continue
         const rackFocus = focused?.rackId === rack.id ? focused : undefined
         layers.use(`rack:${rack.id}`, [rack, rack.id === selection, rackFocus, detailed, currentLanguage], () => {
         const rackStart = group.children.length
@@ -214,6 +246,7 @@ export function WarehouseViewport(props: Props) {
       layers.end()
       const elementIds = new Set(allElements(document).map(element => element.id))
       for (const id of appearances.keys()) if (!elementIds.has(id)) appearances.delete(id)
+      for (const id of labelAppearances.keys()) if (!elementIds.has(id) || id === selection || detailed) labelAppearances.delete(id)
       applyAppearances(); render()
     }
     const setCamera = (mode: string) => {
@@ -316,6 +349,7 @@ export function WarehouseViewport(props: Props) {
     sceneState.current = { filterRacks: ids => { matchingRacks = ids === null ? null : new Set(ids); if (applyAppearances()) render() }, refresh, camera: setCamera, fit: fitScene, focusSelection, cancel: () => { elementResizer?.cancel(); planInteraction.cancel(); interaction.cancel() } }
     refresh(doc, selected); fitScene()
     return () => {
+      if (import.meta.env.DEV) delete (window as { __viewportDebug?: unknown }).__viewportDebug
       sceneState.current = null; observer.disconnect(); elementResizer?.dispose(); planInteraction.dispose(); interaction.dispose(); clearGhost(); controls.dispose(); disposeGroup(); renderer.dispose(); renderer.domElement.remove()
     }
     // Scene lifecycle is independent from document updates.

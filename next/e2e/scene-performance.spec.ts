@@ -77,6 +77,8 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   const callsBlocks = await drawCalls('blocks'), callsDetailed = await drawCalls('detailed')
   const calls = { blocks: callsBlocks.perFrame, detailed: callsDetailed.perFrame, raw: { blocks: callsBlocks, detailed: callsDetailed } }
   expect(calls.blocks).toBeGreaterThan(0); expect(calls.detailed).toBeGreaterThan(0)
+  // Task 0 baseline: 1272 calls per frame in blocks mode; batching must keep it at or below 60 %.
+  expect(calls.blocks).toBeLessThanOrEqual(Math.floor(1272 * .6))
   // Click-picking latency: pointerdown until the selection renders (properties title changes; the virtualized list row may be unmounted) (median of 20).
   await page.getByLabel('Representación del almacén', { exact: true }).selectOption('blocks')
   await page.getByRole('button', { name: 'Superior', exact: true }).click()
@@ -111,3 +113,29 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   await fs.writeFile('artifacts/scene-performance.json', JSON.stringify({ racks: 200, selection, camera, warmCamera, detailedSelection, idle, selectionMs, calls, pickMs, pickTimes, pickTitles, note: 'Muestra sintética Chromium/SwiftShader; selección reconstruye únicamente elementos que cambian. Reposo medido durante 600 ms.' }, null, 2))
 })
 
+test('el filtro de inventario atenúa estanterías en lote', async ({ page }) => {
+  const code = (i: number) => `${String.fromCharCode(65 + Math.floor(i / 10))}${i % 10}`
+  const doc = {
+    format: 'optiruta-warehouse', version: 1, id: 'batch-filter', name: 'Filtro en lote', widthMm: 150000, depthMm: 60000,
+    racks: Array.from({ length: 200 }, (_, i) => ({ id: `rack-${i}`, code: code(i), alias: '', color: '#337b78', xMm: 1000 + i % 20 * 7000, yMm: 2000 + Math.floor(i / 20) * 5000, widthMm: 6000, depthMm: 1200, heightMm: 3000, rotation: 0, columns: 3, access: 'front', reverse: false, levels: [{ id: `level-${i}`, code: '01', elevationMm: 1000 }] })),
+  }
+  await page.goto('/app')
+  await page.getByLabel('Abrir archivo de almacén').setInputFiles({ name: 'lote.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(doc)) })
+  await expect(page.locator('.element-row')).toHaveCount(200)
+  await page.getByRole('button', { name: 'Inventario', exact: true }).click()
+  // One line per rack; "Grupo-3" matches racks 3, 23, …, 183 (10 racks).
+  const csv = 'referencia;descripcion;ubicacion;cantidad\n' + Array.from({ length: 200 }, (_, i) => `SKU-${i};Grupo-${i % 20} pieza;${code(i)}0101;1`).join('\n')
+  await page.getByLabel('Archivo de inventario').setInputFiles({ name: 'lote.csv', mimeType: 'text/csv', buffer: Buffer.from(csv) })
+  await page.getByRole('dialog').getByRole('button', { name: 'Importar inventario', exact: true }).click()
+  await expect(page.locator('.opd-count strong')).toHaveText('200 de 200 líneas', { timeout: 30000 })
+  const color = (id: string) => page.evaluate(id => (window as unknown as { __viewportDebug: { rackColor: (id: string) => string | null } }).__viewportDebug.rackColor(id), id)
+  await expect.poll(() => color('rack-0')).not.toBeNull()
+  const original = await color('rack-0'), matching = await color('rack-3')
+  await page.getByRole('searchbox', { name: 'Buscar inventario' }).fill('Grupo-3 pieza')
+  await expect(page.locator('.inventory-plan-summary')).toHaveText('Coincidencias en 10 estanterías')
+  await expect.poll(() => color('rack-0')).not.toBe(original)
+  expect(await color('rack-3')).toBe(matching)
+  await page.getByRole('searchbox', { name: 'Buscar inventario' }).fill('')
+  await expect(page.locator('.inventory-plan-summary')).toHaveCount(0)
+  await expect.poll(() => color('rack-0')).toBe(original)
+})

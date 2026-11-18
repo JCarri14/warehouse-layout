@@ -1,10 +1,18 @@
 import * as THREE from 'three'
 
 type ColoredMaterial = THREE.Material & { color: THREE.Color }
-const muted = new THREE.Color('#e4ece7')
+/** Colour every dimmed element blends toward; shared by per-object and batched appearances. */
+export const DIM_COLOR = new THREE.Color('#e4ece7')
+
+export interface Dimmable { setDimmed(value: boolean, strength?: number): boolean }
+
+/** One element drawn by several owners (e.g. a batch slice plus its own label layer). */
+export function combineDimmable(parts: readonly Dimmable[]): Dimmable {
+  return { setDimmed: (value, strength) => parts.reduce((changed, part) => part.setDimmed(value, strength) || changed, false) }
+}
 
 /** Owns references, never clones geometry/materials and never changes mesh transparency. */
-export class RackAppearance {
+export class RackAppearance implements Dimmable {
   private amount = 0
   private colors: Array<{ material: ColoredMaterial; original: THREE.Color }> = []
   private labels: Array<{ material: THREE.SpriteMaterial; opacity: number }> = []
@@ -28,7 +36,7 @@ export class RackAppearance {
     const amount = value ? Math.max(0, Math.min(1, strength)) : 0
     if (amount === this.amount) return false
     this.amount = amount
-    for (const { material, original } of this.colors) { material.color.copy(original); if (amount) material.color.lerp(muted, amount) }
+    for (const { material, original } of this.colors) { material.color.copy(original); if (amount) material.color.lerp(DIM_COLOR, amount) }
     for (const { material, opacity } of this.labels) material.opacity = opacity * Math.max(.15, 1 - amount * .52 / .58)
     return true
   }
