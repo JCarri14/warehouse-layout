@@ -1,4 +1,5 @@
 import { t } from '../i18n'
+import { findPlacement } from '../warehouse/placement'
 import { addRack, allElements, assertDocument, elementKind, footprint, isRack, uid, type ElementKind, type PlacedElement, type Rack, type Rotation, type WarehouseDocument, type WarehouseFixture, type WarehouseZone } from '../warehouse/document'
 
 export function elementById(doc: WarehouseDocument, id: string): PlacedElement {
@@ -49,7 +50,7 @@ function place(doc: WarehouseDocument, element: PlacedElement, preferred: Array<
   const zone = elementKind(element) === 'zone', b = footprint(element)
   const occupied = allElements(doc).filter(e => (elementKind(e) === 'zone') === zone).map(footprint)
   const fits = (x: number, y: number) => x >= 0 && y >= 0 && x + b.w <= doc.widthMm && y + b.d <= doc.depthMm && !occupied.some(a => x < a.x + a.w && x + b.w > a.x && y < a.y + a.d && y + b.d > a.y)
-  let position = preferred.find(p => fits(p.x, p.y))
+  let position = findPlacement(doc, element, preferred) ?? preferred.find(p => fits(p.x, p.y))
   if (!position) {
     const xs = [...new Set([1000, ...occupied.map(a => a.x + a.w + 500), 0, ...occupied.map(a => a.x + a.w)])].filter(x => x + b.w <= doc.widthMm)
     const ys = [...new Set([1000, ...occupied.map(a => a.y + a.d + 500), 0, ...occupied.map(a => a.y + a.d)])].filter(y => y + b.d <= doc.depthMm)
