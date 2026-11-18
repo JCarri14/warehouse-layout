@@ -45,6 +45,30 @@ function expectHidden(b: RackBatches, id: string, before: number[][]) {
   expect(touched).toBeGreaterThan(0)
 }
 
+/** Bounding sphere as the renderer sees it: computed lazily on first use and then never refreshed. */
+function rendererSphere(object: THREE.Object3D): THREE.Sphere {
+  if (object instanceof THREE.InstancedMesh) { if (!object.boundingSphere) object.computeBoundingSphere(); return object.boundingSphere! }
+  const geometry = (object as THREE.LineSegments).geometry
+  if (!geometry.boundingSphere) geometry.computeBoundingSphere()
+  return geometry.boundingSphere!
+}
+
+describe.each(['blocks', 'detailed'] as const)('límites del lote (%s)', mode => {
+  it('cubren una estantería ocultada antes del primer dibujo y mostrada después', () => {
+    const only = rack(1)
+    batches = new RackBatches([only], { mode })
+    batches.setHidden(only.id)
+    const spheres = batches.objects.filter(o => o.visible).map(rendererSphere)
+    batches.setHidden(null)
+    const box = elementBoxes({ racks: [only], zones: [], fixtures: [] } as unknown as WarehouseDocument)[0]
+    const corners = [box.min.x, box.max.x].flatMap(x => [box.min.y, box.max.y].flatMap(y => [box.min.z, box.max.z].map(z => new THREE.Vector3(x, y, z))))
+    expect(spheres.length).toBeGreaterThan(0)
+    // Only the bodies (blocks) or frames (detailed) span the whole box; every object must at least reach its own parts.
+    expect(spheres.some(sphere => corners.every(c => sphere.distanceToPoint(c) <= 1e-3))).toBe(true)
+    for (const sphere of spheres) expect(sphere.radius).toBeGreaterThan(0)
+  })
+})
+
 describe('RackBatches en modo bloques', () => {
   it('una malla por tipo de pieza con todas las estanterías', () => {
     batches = new RackBatches(racks, { mode: 'blocks' })

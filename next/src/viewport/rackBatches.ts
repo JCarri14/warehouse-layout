@@ -176,6 +176,14 @@ export class RackBatches {
     const { objects, ranges, slots } = options.mode === 'blocks' ? buildBlocks(racks) : buildDetailed(racks)
     this.objects = objects; this.slots = slots
     for (const [id, own] of ranges) this.appearances.set(id, new BatchAppearance(own))
+    // The renderer computes bounds lazily on first draw and never refreshes them. Computing them now, with every
+    // rack at full size, keeps frustum culling right after `setHidden` collapses a rack and later restores it.
+    // Collapsing keeps each instance's translation inside these bounds, so they stay valid while hidden.
+    for (const object of objects) {
+      if (!object.visible) continue
+      if (object instanceof THREE.InstancedMesh) { object.computeBoundingBox(); object.computeBoundingSphere() }
+      else if (object instanceof THREE.LineSegments) { object.geometry.computeBoundingBox(); object.geometry.computeBoundingSphere() }
+    }
   }
 
   /** Colour-only: dimming never touches the matrices or edge positions that `setHidden` collapses. */
