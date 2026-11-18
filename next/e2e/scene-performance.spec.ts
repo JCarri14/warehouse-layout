@@ -8,8 +8,15 @@ const PICK_TARGETS: [number, number][] = [[345, 440], [377, 440]]
 test('selección y cámara reutilizan la escena de 200 estanterías', async ({ page }) => {
   test.setTimeout(90000)
   await page.addInitScript(() => {
-    const counters = { buffers: 0, textures: 0, draws: 0, calls: 0 }
+    const counters = { buffers: 0, textures: 0, draws: 0, calls: 0, bytes: 0 }
     Object.assign(window, { sceneGpu: counters })
+    // Bytes sent to GPU buffers, full (bufferData) or partial (bufferSubData) uploads alike.
+    const size = (data: unknown, length?: unknown) => typeof data === 'number' ? data : ArrayBuffer.isView(data) ? (typeof length === 'number' && length ? length * ((data as unknown as { BYTES_PER_ELEMENT?: number }).BYTES_PER_ELEMENT ?? 1) : data.byteLength) : data instanceof ArrayBuffer ? data.byteLength : 0
+    for (const prototype of [WebGLRenderingContext.prototype, WebGL2RenderingContext.prototype]) {
+      const bufferData = prototype.bufferData as (...args: unknown[]) => unknown, bufferSubData = prototype.bufferSubData as (...args: unknown[]) => unknown
+      Object.defineProperty(prototype, 'bufferData', { configurable: true, value: function (this: unknown, ...args: unknown[]) { counters.bytes += size(args[1], args[4]); return bufferData.apply(this, args) } })
+      Object.defineProperty(prototype, 'bufferSubData', { configurable: true, value: function (this: unknown, ...args: unknown[]) { counters.bytes += size(args[2], args[4]); return bufferSubData.apply(this, args) } })
+    }
     for (const prototype of [WebGLRenderingContext.prototype, WebGL2RenderingContext.prototype]) {
       for (const [method, counter] of [['bufferData', 'buffers'], ['createTexture', 'textures'], ['clear', 'draws']] as const) {
         const original = prototype[method] as (...args: unknown[]) => unknown
@@ -28,8 +35,8 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   await expect(page.locator('.element-row')).toHaveCount(200)
   // The list can be ready before the deferred 3D module has finished its initial render.
   await expect(page.locator('.canvas-panel canvas')).toBeVisible()
-  const reset = () => page.evaluate(() => { Object.assign((window as unknown as { sceneGpu: object }).sceneGpu, { buffers: 0, textures: 0, draws: 0, calls: 0 }) })
-  const counts = () => page.evaluate(() => ({ ...(window as unknown as { sceneGpu: { buffers: number; textures: number; draws: number; calls: number } }).sceneGpu }))
+  const reset = () => page.evaluate(() => { Object.assign((window as unknown as { sceneGpu: object }).sceneGpu, { buffers: 0, textures: 0, draws: 0, calls: 0, bytes: 0 }) })
+  const counts = () => page.evaluate(() => ({ ...(window as unknown as { sceneGpu: { buffers: number; textures: number; draws: number; calls: number; bytes: number } }).sceneGpu }))
   await page.waitForTimeout(200); await reset()
   const start = Date.now()
   await page.locator('.element-row').nth(100).click()
@@ -59,6 +66,11 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   await page.waitForTimeout(100)
   const detailedSelection = await counts()
   expect(detailedSelection.textures).toBeLessThan(20)
+  // The batch only hides the selected rack's slice: rebuilding it uploaded 66 buffers / 9.28 MB per click here;
+  // hiding uploads 48 buffers (the selected rack's own layer) / ~97 kB. Blocks mode: 197 kB rebuilt vs ~88 kB hidden.
+  expect(detailedSelection.buffers).toBeLessThanOrEqual(56)
+  expect(detailedSelection.bytes).toBeLessThan(1_000_000)
+  expect(selection.bytes).toBeLessThan(150_000)
   await reset()
   await page.waitForTimeout(600)
   const idle = await counts()

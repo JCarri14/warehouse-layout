@@ -30,7 +30,17 @@ class BatchAppearance implements Dimmable {
   }
 }
 
-type Built = { objects: THREE.Object3D[]; ranges: Map<string, Range[]> }
+/** A rack's slice of a geometry buffer: instance matrices (16 floats each) or edge vertex positions (3 floats each). */
+type Slot = { attribute: THREE.BufferAttribute; kind: 'matrices' | 'points'; start: number; count: number }
+type Built = { objects: THREE.Object3D[]; ranges: Map<string, Range[]>; slots: Map<string, Slot[]> }
+
+/** Zero-scale matrices (translation kept, so bounds stay put) or edges collapsed onto their first vertex. */
+function collapse({ attribute, kind, start, count }: Slot) {
+  const array = attribute.array as Float32Array
+  if (kind === 'matrices') for (let i = start; i < start + count; i += 16) array.fill(0, i, i + 3).fill(0, i + 4, i + 7).fill(0, i + 8, i + 11)
+  else for (let i = start + 3; i < start + count; i += 3) array.copyWithin(i, start, start + 3)
+  attribute.addUpdateRange(start, count); attribute.needsUpdate = true
+}
 
 /** Blocks mode: bodies, real levels and body edges, one object each. */
 function buildBlocks(batched: readonly Rack[]): Built {
@@ -77,7 +87,8 @@ function buildBlocks(batched: readonly Rack[]): Built {
 
   const bodyColors = bodies.instanceColor!, levelColors = levels.instanceColor!, edgeAttribute = edgeGeometry.getAttribute('color') as THREE.BufferAttribute
   const originals = { body: Float32Array.from(bodyColors.array), level: Float32Array.from(levelColors.array), edge: Float32Array.from(edgeColors) }
-  const ranges = new Map<string, Range[]>()
+  const ranges = new Map<string, Range[]>(), slots = new Map<string, Slot[]>()
+  const edgePositions = edgeGeometry.getAttribute('position') as THREE.BufferAttribute
   for (const slice of slices) {
     const own: Range[] = [
       { attribute: bodyColors, original: originals.body, start: slice.body * 3, count: 3 },
@@ -85,8 +96,12 @@ function buildBlocks(batched: readonly Rack[]): Built {
     ]
     if (slice.levels) own.push({ attribute: levelColors, original: originals.level, start: slice.level * 3, count: slice.levels * 3 })
     ranges.set(slice.id, own)
+    const hide: Slot[] = [{ attribute: bodies.instanceMatrix, kind: 'matrices', start: slice.body * 16, count: 16 }]
+    if (slice.levels) hide.push({ attribute: levels.instanceMatrix, kind: 'matrices', start: slice.level * 16, count: slice.levels * 16 })
+    hide.push({ attribute: edgePositions, kind: 'points', start: slice.edge, count: perRack })
+    slots.set(slice.id, hide)
   }
-  return { objects: [bodies, levels, edges], ranges }
+  return { objects: [bodies, levels, edges], ranges, slots }
 }
 
 type PartBuffer = { matrices: Float32Array; colors: Float32Array; ids: string[]; count: number }
@@ -119,7 +134,7 @@ function buildDetailed(batched: readonly Rack[]): Built {
   }
 
   const geometry = new THREE.BoxGeometry(1, 1, 1), objects: THREE.Object3D[] = []
-  const colorBuffers = new Map<PartMaterial, { attribute: THREE.BufferAttribute; original: Float32Array }>()
+  const colorBuffers = new Map<PartMaterial, { attribute: THREE.BufferAttribute; original: Float32Array }>(), matrixBuffers = new Map<PartMaterial, THREE.BufferAttribute>()
   for (const material of PART_ORDER) {
     const buffer = buffers.get(material)
     if (!buffer) continue
@@ -128,17 +143,21 @@ function buildDetailed(batched: readonly Rack[]): Built {
     const original = buffer.colors.slice(0, buffer.count * 3)
     mesh.instanceColor = new THREE.InstancedBufferAttribute(original.slice(), 3)
     mesh.userData.ids = buffer.ids; mesh.userData.material = material
-    colorBuffers.set(material, { attribute: mesh.instanceColor, original })
+    colorBuffers.set(material, { attribute: mesh.instanceColor, original }); matrixBuffers.set(material, mesh.instanceMatrix)
     objects.push(mesh)
   }
   if (!objects.length) geometry.dispose()
-  const ranges = new Map<string, Range[]>()
-  for (const [id, own] of slices) ranges.set(id, own.map(({ material, start, count }) => ({ ...colorBuffers.get(material)!, start: start * 3, count: count * 3 })))
-  return { objects, ranges }
+  const ranges = new Map<string, Range[]>(), slots = new Map<string, Slot[]>()
+  for (const [id, own] of slices) {
+    ranges.set(id, own.map(({ material, start, count }) => ({ ...colorBuffers.get(material)!, start: start * 3, count: count * 3 })))
+    slots.set(id, own.map(({ material, start, count }): Slot => ({ attribute: matrixBuffers.get(material)!, kind: 'matrices', start: start * 16, count: count * 16 })))
+  }
+  return { objects, ranges, slots }
 }
 
 /**
- * Non-selected racks drawn with one object per part type; `userData.ids` maps instance index → rack id.
+ * Every rack drawn with one object per part type; `userData.ids` maps instance index → rack id.
+ * The selected rack stays in the batch but is hidden with `setHidden`, so selecting never rebuilds or re-uploads it.
  *
  * Ownership: whoever adds `objects` to a scene owns them. In the viewport they live in a `SceneLayers`
  * layer, which disposes them with the layer, so the viewport never calls `dispose()`. `dispose()` is for
@@ -147,22 +166,49 @@ function buildDetailed(batched: readonly Rack[]): Built {
 export class RackBatches {
   readonly objects: THREE.Object3D[]
   private appearances = new Map<string, BatchAppearance>()
+  private slots: Map<string, Slot[]>
+  private hiddenId: string | null = null
+  /** Original contents of the hidden rack's slots, in `slots` order, written back when it is shown again. */
+  private saved: Float32Array[] = []
   private disposed = false
 
-  constructor(racks: readonly Rack[], options: { mode: 'blocks' | 'detailed'; exclude: string | null }) {
-    const batched = racks.filter(rack => rack.id !== options.exclude)
-    const { objects, ranges } = options.mode === 'blocks' ? buildBlocks(batched) : buildDetailed(batched)
-    this.objects = objects
+  constructor(racks: readonly Rack[], options: { mode: 'blocks' | 'detailed' }) {
+    const { objects, ranges, slots } = options.mode === 'blocks' ? buildBlocks(racks) : buildDetailed(racks)
+    this.objects = objects; this.slots = slots
     for (const [id, own] of ranges) this.appearances.set(id, new BatchAppearance(own))
   }
 
+  /** Colour-only: dimming never touches the matrices or edge positions that `setHidden` collapses. */
   appearance(id: string): Dimmable | undefined { return this.appearances.get(id) }
+
+  /** Rack currently hidden in the batch (drawn elsewhere, e.g. as the selection), or null. */
+  get hidden(): string | null { return this.hiddenId }
+
+  /**
+   * Hides one rack's instances (zero-scale matrices, degenerate edges) and shows the previously hidden one again,
+   * uploading only those slices. An id not in the batch, or null, just restores. Same id: no work.
+   */
+  setHidden(id: string | null) {
+    const next = id !== null && this.slots.has(id) ? id : null
+    if (next === this.hiddenId) return
+    if (this.hiddenId !== null) this.slots.get(this.hiddenId)!.forEach((slot, i) => {
+      ;(slot.attribute.array as Float32Array).set(this.saved[i], slot.start)
+      slot.attribute.addUpdateRange(slot.start, slot.count); slot.attribute.needsUpdate = true
+    })
+    this.saved = []
+    this.hiddenId = next
+    if (next === null) return
+    for (const slot of this.slots.get(next)!) {
+      this.saved.push((slot.attribute.array as Float32Array).slice(slot.start, slot.start + slot.count))
+      collapse(slot)
+    }
+  }
 
   dispose() {
     if (this.disposed) return
     this.disposed = true
     disposeObjects(this.objects)
-    this.appearances.clear()
+    this.appearances.clear(); this.slots.clear(); this.saved = []; this.hiddenId = null
   }
 }
 

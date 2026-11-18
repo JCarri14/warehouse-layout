@@ -12,35 +12,58 @@ const rack = (i: number): Rack => ({
   levels: Array.from({ length: i % 4 }, (_, n) => ({ id: `l-${i}-${n}`, code: `0${n + 1}`, elevationMm: n * 1000 })),
 })
 const racks = Array.from({ length: 200 }, (_, i) => rack(i))
-const excluded = 'rack-7'
 let batches: RackBatches | undefined
 afterEach(() => { batches?.dispose(); batches = undefined })
 const meshes = (b: RackBatches) => b.objects.filter((o): o is THREE.InstancedMesh => o instanceof THREE.InstancedMesh)
 const colorsOf = (mesh: THREE.InstancedMesh) => Array.from(mesh.instanceColor!.array)
-const edgeColors = (b: RackBatches) => Array.from(((b.objects.find(o => o instanceof THREE.LineSegments) as THREE.LineSegments).geometry.getAttribute('color') as THREE.BufferAttribute).array)
+const edgesOf = (b: RackBatches) => b.objects.find(o => o instanceof THREE.LineSegments) as THREE.LineSegments
+const edgeColors = (b: RackBatches) => Array.from((edgesOf(b).geometry.getAttribute('color') as THREE.BufferAttribute).array)
+const edgePositions = (b: RackBatches) => edgesOf(b).geometry.getAttribute('position') as THREE.BufferAttribute
+const matricesOf = (mesh: THREE.InstancedMesh) => Array.from(mesh.instanceMatrix.array)
+/** Instance indices whose 16 matrix floats differ between two snapshots. */
+const changedInstances = (a: number[], b: number[]) => [...new Set(a.flatMap((v, i) => v !== b[i] ? [Math.floor(i / 16)] : []))]
+const ownedInstances = (mesh: THREE.InstancedMesh, id: string) => (mesh.userData.ids as string[]).flatMap((owner, i) => owner === id ? [i] : [])
+const zeroScale = (mesh: THREE.InstancedMesh, i: number) => {
+  const m = mesh.instanceMatrix.array
+  return [0, 1, 2, 4, 5, 6, 8, 9, 10].every(k => m[i * 16 + k] === 0)
+}
+const clearRanges = (b: RackBatches) => {
+  for (const mesh of meshes(b)) { mesh.instanceMatrix.clearUpdateRanges(); mesh.instanceColor!.clearUpdateRanges() }
+  const edges = edgesOf(b)
+  if (edges) for (const name of ['position', 'color']) (edges.geometry.getAttribute(name) as THREE.BufferAttribute).clearUpdateRanges()
+}
+
+/** Shared contract of `setHidden` on every InstancedMesh of a batch. */
+function expectHidden(b: RackBatches, id: string, before: number[][]) {
+  let touched = 0
+  meshes(b).forEach((mesh, m) => {
+    const owned = ownedInstances(mesh, id)
+    expect(changedInstances(before[m], matricesOf(mesh))).toEqual(owned)
+    for (const i of owned) expect(zeroScale(mesh, i)).toBe(true)
+    if (owned.length) touched++
+  })
+  expect(touched).toBeGreaterThan(0)
+}
 
 describe('RackBatches en modo bloques', () => {
-  it('una malla por tipo de pieza', () => {
-    batches = new RackBatches(racks, { mode: 'blocks', exclude: excluded })
+  it('una malla por tipo de pieza con todas las estanterías', () => {
+    batches = new RackBatches(racks, { mode: 'blocks' })
     expect(batches.objects).toHaveLength(3)
     const [bodies, levels] = meshes(batches)
-    expect(bodies.count).toBe(199)
-    expect(levels.count).toBe(racks.filter(r => r.id !== excluded).reduce((sum, r) => sum + r.levels.length, 0))
+    expect(bodies.count).toBe(200)
+    expect(levels.count).toBe(racks.reduce((sum, r) => sum + r.levels.length, 0))
     expect(batches.objects.filter(o => o instanceof THREE.LineSegments)).toHaveLength(1)
+    expect(batches.hidden).toBeNull()
   })
 
-  it('excluye la seleccionada', () => {
-    batches = new RackBatches(racks, { mode: 'blocks', exclude: excluded })
-    for (const mesh of meshes(batches)) {
-      expect(mesh.userData.ids).toHaveLength(mesh.count)
-      expect(mesh.userData.ids).not.toContain(excluded)
-    }
-    expect(batches.appearance(excluded)).toBeUndefined()
-    expect(batches.appearance('rack-8')).toBeDefined()
+  it('sin estanterías deja sus tres objetos ocultos', () => {
+    batches = new RackBatches([], { mode: 'blocks' })
+    expect(batches.objects).toHaveLength(3)
+    for (const object of batches.objects) expect(object.visible).toBe(false)
   })
 
   it('atenúa solo su rango', () => {
-    batches = new RackBatches(racks, { mode: 'blocks', exclude: excluded })
+    batches = new RackBatches(racks, { mode: 'blocks' })
     const [bodies, levels] = meshes(batches)
     const target = 'rack-11' // three levels
     const beforeBodies = colorsOf(bodies), beforeLevels = colorsOf(levels), beforeEdges = edgeColors(batches)
@@ -58,7 +81,7 @@ describe('RackBatches en modo bloques', () => {
   })
 
   it('matrices en su sitio', () => {
-    batches = new RackBatches(racks, { mode: 'blocks', exclude: excluded })
+    batches = new RackBatches(racks, { mode: 'blocks' })
     const [bodies] = meshes(batches)
     const boxes = new Map(elementBoxes({ racks, zones: [], fixtures: [] } as unknown as WarehouseDocument).map(b => [b.id, b]))
     const matrix = new THREE.Matrix4(), unit = new THREE.Box3(new THREE.Vector3(-.5, -.5, -.5), new THREE.Vector3(.5, .5, .5))
@@ -70,27 +93,94 @@ describe('RackBatches en modo bloques', () => {
       }
     })
   })
+
+  it('ocultar pone a escala cero exactamente su rango y degenera solo sus aristas', () => {
+    batches = new RackBatches(racks, { mode: 'blocks' })
+    const target = 'rack-11', index = 11
+    const before = meshes(batches).map(matricesOf), positions = edgePositions(batches), beforeEdges = Array.from(positions.array)
+    const perRack = beforeEdges.length / racks.length
+    batches.setHidden(target)
+    expect(batches.hidden).toBe(target)
+    expectHidden(batches, target, before)
+    const afterEdges = Array.from(positions.array)
+    afterEdges.forEach((v, i) => { if (i < index * perRack || i >= (index + 1) * perRack) expect(v).toBe(beforeEdges[i]) })
+    // Every vertex of its edge range collapses onto one point, so the segments have zero length.
+    const own = afterEdges.slice(index * perRack, (index + 1) * perRack)
+    for (let v = 0; v < own.length; v += 3) expect(own.slice(v, v + 3)).toEqual(own.slice(0, 3))
+    expect(own).not.toEqual(beforeEdges.slice(index * perRack, (index + 1) * perRack))
+  })
+
+  it('mostrar restaura exactamente matrices y aristas', () => {
+    batches = new RackBatches(racks, { mode: 'blocks' })
+    const before = meshes(batches).map(matricesOf), beforeEdges = Array.from(edgePositions(batches).array)
+    batches.setHidden('rack-11'); batches.setHidden(null)
+    expect(batches.hidden).toBeNull()
+    expect(meshes(batches).map(matricesOf)).toEqual(before)
+    expect(Array.from(edgePositions(batches).array)).toEqual(beforeEdges)
+  })
+
+  it('cambiar de A a B restaura A y oculta B, con rangos de subida solo de ambos', () => {
+    batches = new RackBatches(racks, { mode: 'blocks' })
+    const before = meshes(batches).map(matricesOf), beforeEdges = Array.from(edgePositions(batches).array), perRack = beforeEdges.length / racks.length
+    batches.setHidden('rack-11')
+    clearRanges(batches)
+    batches.setHidden('rack-42')
+    expectHidden(batches, 'rack-42', before)
+    const [bodies, levels] = meshes(batches)
+    expect(bodies.instanceMatrix.updateRanges).toEqual([{ start: 11 * 16, count: 16 }, { start: 42 * 16, count: 16 }])
+    const levelRange = (id: string) => { const own = ownedInstances(levels, id); return { start: own[0] * 16, count: own.length * 16 } }
+    expect(levels.instanceMatrix.updateRanges).toEqual([levelRange('rack-11'), levelRange('rack-42')])
+    expect(edgePositions(batches).updateRanges).toEqual([{ start: 11 * perRack, count: perRack }, { start: 42 * perRack, count: perRack }])
+    expect(Array.from(edgePositions(batches).array).slice(11 * perRack, 12 * perRack)).toEqual(beforeEdges.slice(11 * perRack, 12 * perRack))
+    // Hiding never touches colours.
+    for (const mesh of meshes(batches)) expect(mesh.instanceColor!.updateRanges).toEqual([])
+    expect((edgesOf(batches).geometry.getAttribute('color') as THREE.BufferAttribute).updateRanges).toEqual([])
+  })
+
+  it('ocultar la misma o una desconocida no sube nada de más', () => {
+    batches = new RackBatches(racks, { mode: 'blocks' })
+    const before = meshes(batches).map(matricesOf)
+    batches.setHidden('rack-11'); clearRanges(batches)
+    batches.setHidden('rack-11')
+    for (const mesh of meshes(batches)) expect(mesh.instanceMatrix.updateRanges).toEqual([])
+    expect(edgePositions(batches).updateRanges).toEqual([])
+    batches.setHidden('no-existe')
+    expect(batches.hidden).toBeNull()
+    expect(meshes(batches).map(matricesOf)).toEqual(before)
+  })
+
+  it('atenuar una oculta solo cambia colores y no la vuelve visible', () => {
+    batches = new RackBatches(racks, { mode: 'blocks' })
+    batches.setHidden('rack-11')
+    const hidden = meshes(batches).map(matricesOf), hiddenEdges = Array.from(edgePositions(batches).array)
+    clearRanges(batches)
+    expect(batches.appearance('rack-11')!.setDimmed(true, .58)).toBe(true)
+    expect(batches.appearance('rack-11')!.setDimmed(false)).toBe(true)
+    expect(meshes(batches).map(matricesOf)).toEqual(hidden)
+    expect(Array.from(edgePositions(batches).array)).toEqual(hiddenEdges)
+    for (const mesh of meshes(batches)) expect(mesh.instanceMatrix.updateRanges).toEqual([])
+    expect(edgePositions(batches).updateRanges).toEqual([])
+  })
 })
 
 const CONTENTS = ['shelves', 'pallets', 'bins', 'cartons'] as const
 // Four content types, every rotation and some racks deeper than wide.
 const detailedRacks = racks.map((r, i): Rack => ({ ...r, contents: CONTENTS[i % 4], rotation: ([0, 90, 180, 270] as const)[i % 4 === 1 ? 2 : i % 7 % 4], ...(i % 9 === 0 ? { widthMm: 1200, depthMm: 4800 } : {}) }))
-const kept = detailedRacks.filter(r => r.id !== excluded)
 
 describe('RackBatches en modo detallado', () => {
   it('detallado: una malla por material', () => {
-    batches = new RackBatches(detailedRacks, { mode: 'detailed', exclude: excluded })
+    batches = new RackBatches(detailedRacks, { mode: 'detailed' })
     expect(batches.objects.length).toBeLessThanOrEqual(9)
     expect(batches.objects.every(o => o instanceof THREE.InstancedMesh)).toBe(true)
     const total = meshes(batches).reduce((sum, mesh) => sum + mesh.count, 0)
-    expect(total).toBe(kept.reduce((sum, r) => sum + detailedParts(r, { active: false }).length, 0))
+    expect(total).toBe(detailedRacks.reduce((sum, r) => sum + detailedParts(r, { active: false }).length, 0))
     expect(new Set(meshes(batches).map(mesh => mesh.userData.material)).size).toBe(batches.objects.length)
   })
 
   it('reproduce material, color y matriz de cada pieza', () => {
-    batches = new RackBatches(detailedRacks, { mode: 'detailed', exclude: excluded })
+    batches = new RackBatches(detailedRacks, { mode: 'detailed' })
     const expected = new Map<PartMaterial, Array<{ id: string; color: THREE.Color; matrix: THREE.Matrix4 }>>()
-    for (const r of kept) for (const part of detailedParts(r, { active: false })) {
+    for (const r of detailedRacks) for (const part of detailedParts(r, { active: false })) {
       if (!expected.has(part.material)) expected.set(part.material, [])
       expected.get(part.material)!.push({ id: r.id, ...part })
     }
@@ -111,10 +201,8 @@ describe('RackBatches en modo detallado', () => {
     }
   })
 
-  it('excluye la seleccionada y atenúa solo sus piezas', () => {
-    batches = new RackBatches(detailedRacks, { mode: 'detailed', exclude: excluded })
-    expect(batches.appearance(excluded)).toBeUndefined()
-    for (const mesh of meshes(batches)) expect(mesh.userData.ids).not.toContain(excluded)
+  it('atenúa solo sus piezas', () => {
+    batches = new RackBatches(detailedRacks, { mode: 'detailed' })
     const target = 'rack-13', before = meshes(batches).map(colorsOf)
     expect(batches.appearance(target)!.setDimmed(true, .58)).toBe(true)
     let touched = 0
@@ -131,8 +219,37 @@ describe('RackBatches en modo detallado', () => {
     expect(batches.appearance(target)!.setDimmed(false)).toBe(false)
   })
 
-  it('sin estanterías no deja mallas vacías visibles', () => {
-    batches = new RackBatches([], { mode: 'detailed', exclude: null })
-    expect(batches.objects.every(o => !o.visible)).toBe(true)
+  it('ocultar pone a escala cero exactamente sus piezas en cada malla y mostrar las restaura', () => {
+    batches = new RackBatches(detailedRacks, { mode: 'detailed' })
+    const before = meshes(batches).map(matricesOf)
+    batches.setHidden('rack-13')
+    expectHidden(batches, 'rack-13', before)
+    expect(meshes(batches).filter(mesh => ownedInstances(mesh, 'rack-13').length).length).toBeGreaterThan(2)
+    batches.setHidden(null)
+    expect(meshes(batches).map(matricesOf)).toEqual(before)
+  })
+
+  it('cambiar de A a B restaura A, oculta B y sube solo sus rangos', () => {
+    batches = new RackBatches(detailedRacks, { mode: 'detailed' })
+    const before = meshes(batches).map(matricesOf)
+    batches.setHidden('rack-13')
+    clearRanges(batches)
+    batches.setHidden('rack-14')
+    expectHidden(batches, 'rack-14', before)
+    for (const mesh of meshes(batches)) {
+      const expected = ['rack-13', 'rack-14'].flatMap(id => {
+        const own = ownedInstances(mesh, id)
+        return own.length ? [{ start: own[0] * 16, count: own.length * 16 }] : []
+      })
+      expect(mesh.instanceMatrix.updateRanges).toEqual(expected)
+      expect(mesh.instanceColor!.updateRanges).toEqual([])
+    }
+  })
+
+  it('sin estanterías no crea mallas', () => {
+    batches = new RackBatches([], { mode: 'detailed' })
+    expect(batches.objects).toHaveLength(0)
+    expect(() => batches!.setHidden('rack-1')).not.toThrow()
+    expect(batches.hidden).toBeNull()
   })
 })

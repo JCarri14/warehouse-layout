@@ -55,9 +55,9 @@ export function WarehouseViewport(props: Props) {
     const labelAppearances = new Map<string, RackAppearance>()
     let rackBatches: RackBatches | null = null
     if (import.meta.env.DEV) Object.assign(window, { __viewportDebug: {
-      /** Current instance colour (hex) of a rack's first batched part (body in blocks mode, frame in detailed mode), or null when it is not in the batch. */
+      /** Current instance colour (hex) of a rack's first batched part (body in blocks mode, frame in detailed mode), or null when it is not drawn by the batch (hidden as the selection). */
       rackColor: (id: string) => {
-        const bodies = rackBatches?.objects[0] as THREE.InstancedMesh | undefined, index = bodies?.userData.ids.indexOf(id) ?? -1
+        const bodies = rackBatches?.objects[0] as THREE.InstancedMesh | undefined, index = rackBatches?.hidden === id ? -1 : bodies?.userData.ids.indexOf(id) ?? -1
         return bodies && index >= 0 ? bodies.getColorAt(index, new THREE.Color()).getHexString() : null
       },
     } })
@@ -149,13 +149,14 @@ export function WarehouseViewport(props: Props) {
         })
       }
       const detailed = contextRef.current.representation === 'detailed' && contextRef.current.view === 'iso'
-      // Every non-selected rack shares the batched objects of the current representation (three in blocks mode,
-      // one per part material in detailed mode); labels and access lines stay per rack. The selected rack keeps its own layer.
-      const batchExclude = document.racks.some(rack => rack.id === selection) ? selection : null
-      layers.use('rack-batch', [document.racks, batchExclude, detailed], () => {
-        rackBatches = new RackBatches(document.racks, { mode: detailed ? 'detailed' : 'blocks', exclude: batchExclude })
+      // Every rack shares the batched objects of the current representation (three in blocks mode, one per part
+      // material in detailed mode); labels and access lines stay per rack. The selected rack is drawn by its own
+      // layer and only hidden inside the batch, so changing the selection never rebuilds or re-uploads the batch.
+      layers.use('rack-batch', [document.racks, detailed], () => {
+        rackBatches = new RackBatches(document.racks, { mode: detailed ? 'detailed' : 'blocks' })
         for (const object of rackBatches.objects) group.add(object)
       })
+      rackBatches!.setHidden(selection)
       for (const rack of document.racks) {
         if (rack.id === selection) continue
         const rackFocus = focused?.rackId === rack.id ? focused : undefined
