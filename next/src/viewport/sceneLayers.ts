@@ -1,7 +1,8 @@
 import * as THREE from 'three'
 
 type Layer = { dependencies: readonly unknown[]; objects: THREE.Object3D[] }
-function dispose(objects: THREE.Object3D[]) {
+/** Releases every GPU resource reachable from `objects`; shared geometries/materials are released once. */
+export function disposeObjects(objects: readonly THREE.Object3D[]) {
   const geometries = new Set<THREE.BufferGeometry>(), materials = new Set<THREE.Material>(), textures = new Set<THREE.Texture>()
   for (const object of objects) object.traverse(child => {
     if (child instanceof THREE.InstancedMesh) child.dispose()
@@ -30,13 +31,13 @@ export class SceneLayers {
       for (const object of previous.objects) this.group.add(object)
       return
     }
-    if (previous) dispose(previous.objects)
+    if (previous) disposeObjects(previous.objects)
     const start = this.group.children.length
     build()
     this.layers.set(key, { dependencies: [...dependencies], objects: this.group.children.slice(start) })
   }
   end() {
-    for (const [key, layer] of this.layers) if (!this.used.has(key)) { dispose(layer.objects); this.layers.delete(key) }
+    for (const [key, layer] of this.layers) if (!this.used.has(key)) { disposeObjects(layer.objects); this.layers.delete(key) }
   }
-  dispose() { for (const layer of this.layers.values()) dispose(layer.objects); this.layers.clear(); this.group.clear() }
+  dispose() { for (const layer of this.layers.values()) disposeObjects(layer.objects); this.layers.clear(); this.group.clear() }
 }

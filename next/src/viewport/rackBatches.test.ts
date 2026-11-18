@@ -3,6 +3,7 @@ import * as THREE from 'three'
 import type { Rack, WarehouseDocument } from '../warehouse/document'
 import { elementBoxes } from './elementPicker'
 import { RackBatches } from './rackBatches'
+import { detailedParts, PART_METALNESS, type PartMaterial } from './detailedVisuals'
 
 const rack = (i: number): Rack => ({
   id: `rack-${i}`, code: `R${i}`, alias: '', color: i % 2 ? '#337b78' : '#8a4e9b',
@@ -69,8 +70,69 @@ describe('RackBatches en modo bloques', () => {
       }
     })
   })
+})
 
-  it('el modo detallado aún no está disponible', () => {
-    expect(() => new RackBatches(racks, { mode: 'detailed', exclude: null })).toThrow(/not implemented/)
+const CONTENTS = ['shelves', 'pallets', 'bins', 'cartons'] as const
+// Four content types, every rotation and some racks deeper than wide.
+const detailedRacks = racks.map((r, i): Rack => ({ ...r, contents: CONTENTS[i % 4], rotation: ([0, 90, 180, 270] as const)[i % 4 === 1 ? 2 : i % 7 % 4], ...(i % 9 === 0 ? { widthMm: 1200, depthMm: 4800 } : {}) }))
+const kept = detailedRacks.filter(r => r.id !== excluded)
+
+describe('RackBatches en modo detallado', () => {
+  it('detallado: una malla por material', () => {
+    batches = new RackBatches(detailedRacks, { mode: 'detailed', exclude: excluded })
+    expect(batches.objects.length).toBeLessThanOrEqual(9)
+    expect(batches.objects.every(o => o instanceof THREE.InstancedMesh)).toBe(true)
+    const total = meshes(batches).reduce((sum, mesh) => sum + mesh.count, 0)
+    expect(total).toBe(kept.reduce((sum, r) => sum + detailedParts(r, { active: false }).length, 0))
+    expect(new Set(meshes(batches).map(mesh => mesh.userData.material)).size).toBe(batches.objects.length)
+  })
+
+  it('reproduce material, color y matriz de cada pieza', () => {
+    batches = new RackBatches(detailedRacks, { mode: 'detailed', exclude: excluded })
+    const expected = new Map<PartMaterial, Array<{ id: string; color: THREE.Color; matrix: THREE.Matrix4 }>>()
+    for (const r of kept) for (const part of detailedParts(r, { active: false })) {
+      if (!expected.has(part.material)) expected.set(part.material, [])
+      expected.get(part.material)!.push({ id: r.id, ...part })
+    }
+    expect(new Set(meshes(batches).map(mesh => mesh.userData.material))).toEqual(new Set(expected.keys()))
+    const matrix = new THREE.Matrix4(), color = new THREE.Color()
+    for (const mesh of meshes(batches)) {
+      const material = mesh.material as THREE.MeshStandardMaterial, parts = expected.get(mesh.userData.material)!
+      expect(material.metalness).toBe(PART_METALNESS[mesh.userData.material as PartMaterial])
+      expect(material.roughness).toBe(.65)
+      expect(material.color.getHex()).toBe(0xffffff)
+      expect(mesh.count).toBe(parts.length)
+      expect(mesh.userData.ids).toEqual(parts.map(p => p.id))
+      parts.forEach((part, i) => {
+        mesh.getMatrixAt(i, matrix); mesh.getColorAt(i, color)
+        expect(matrix.elements).toEqual(part.matrix.elements.map(Math.fround))
+        expect([color.r, color.g, color.b]).toEqual([part.color.r, part.color.g, part.color.b].map(Math.fround))
+      })
+    }
+  })
+
+  it('excluye la seleccionada y atenúa solo sus piezas', () => {
+    batches = new RackBatches(detailedRacks, { mode: 'detailed', exclude: excluded })
+    expect(batches.appearance(excluded)).toBeUndefined()
+    for (const mesh of meshes(batches)) expect(mesh.userData.ids).not.toContain(excluded)
+    const target = 'rack-13', before = meshes(batches).map(colorsOf)
+    expect(batches.appearance(target)!.setDimmed(true, .58)).toBe(true)
+    let touched = 0
+    meshes(batches).forEach((mesh, m) => {
+      const after = colorsOf(mesh), changed = new Set<string>()
+      after.forEach((v, i) => { if (v !== before[m][i]) changed.add(mesh.userData.ids[Math.floor(i / 3)]) })
+      expect([...changed].every(id => id === target)).toBe(true)
+      const owned = mesh.userData.ids.filter((id: string) => id === target).length
+      if (owned) { expect(changed.size).toBe(1); expect(mesh.instanceColor!.updateRanges).toEqual([{ start: mesh.userData.ids.indexOf(target) * 3, count: owned * 3 }]); touched++ }
+    })
+    expect(touched).toBeGreaterThan(2)
+    expect(batches.appearance(target)!.setDimmed(false)).toBe(true)
+    expect(meshes(batches).map(colorsOf)).toEqual(before)
+    expect(batches.appearance(target)!.setDimmed(false)).toBe(false)
+  })
+
+  it('sin estanterías no deja mallas vacías visibles', () => {
+    batches = new RackBatches([], { mode: 'detailed', exclude: null })
+    expect(batches.objects.every(o => !o.visible)).toBe(true)
   })
 })

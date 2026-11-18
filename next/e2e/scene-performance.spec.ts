@@ -79,6 +79,8 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   expect(calls.blocks).toBeGreaterThan(0); expect(calls.detailed).toBeGreaterThan(0)
   // Task 0 baseline: 1272 calls per frame in blocks mode; batching must keep it at or below 60 %.
   expect(calls.blocks).toBeLessThanOrEqual(Math.floor(1272 * .6))
+  // Task 0 baseline: 1222 calls per frame in detailed mode; one batch per part material must keep it at or below 40 %.
+  expect(calls.detailed).toBeLessThanOrEqual(Math.floor(1222 * .4))
   // Click-picking latency: pointerdown until the selection renders (properties title changes; the virtualized list row may be unmounted) (median of 20).
   await page.getByLabel('Representación del almacén', { exact: true }).selectOption('blocks')
   await page.getByRole('button', { name: 'Superior', exact: true }).click()

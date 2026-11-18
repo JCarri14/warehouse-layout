@@ -10,18 +10,26 @@ export type PartMaterial = 'frame' | 'beam' | 'shelf' | 'body' | 'leg' | 'wood' 
 export type DetailedPart = { material: PartMaterial; color: THREE.Color; matrix: THREE.Matrix4 }
 
 export const PART_METALNESS: Record<PartMaterial, number> = { frame: .55, beam: .3, shelf: .1, body: .05, leg: .45, wood: .02, cardboard: .02, bin: .02, label: .02 }
-const PART_ORDER: PartMaterial[] = ['frame', 'beam', 'shelf', 'body', 'leg', 'wood', 'cardboard', 'bin', 'label']
+/** Order in which materials are emitted and drawn. */
+export const PART_ORDER: readonly PartMaterial[] = ['frame', 'beam', 'shelf', 'body', 'leg', 'wood', 'cardboard', 'bin', 'label']
+/**
+ * Receives each part in turn. `color` and `matrix` are scratch objects reused for the next part:
+ * read or copy them, never keep the references.
+ */
+export type PartVisitor = (material: PartMaterial, color: THREE.Color, matrix: THREE.Matrix4) => void
 
-/** Parts of the detailed representation with matrices local to the element's group. */
-function localParts(element: PlacedElement, options: Options): DetailedPart[] {
-  const out: DetailedPart[] = []
+/** Visits the parts of the detailed representation with matrices local to the element's group. */
+function visitLocalParts(element: PlacedElement, options: Options, visit: PartVisitor) {
   const width = element.widthMm / 1000, depth = element.depthMm / 1000
   const height = elementHeight(element) / 1000
   const position = new THREE.Vector3(), scale = new THREE.Vector3(), quaternion = new THREE.Quaternion()
+  const matrix = new THREE.Matrix4(), scratch = new THREE.Color()
   const batch = (parts: Part[], material: PartMaterial, color: THREE.ColorRepresentation) => {
+    if (!parts.length) return
+    scratch.set(color)
     for (const part of parts) {
       position.set(part.x, part.y, part.z); scale.set(part.width, part.height, part.depth)
-      out.push({ material, color: new THREE.Color(color), matrix: new THREE.Matrix4().compose(position, quaternion, scale) })
+      visit(material, scratch, matrix.compose(position, quaternion, scale))
     }
   }
   const turn = isRack(element) && element.depthMm > element.widthMm
@@ -30,14 +38,14 @@ function localParts(element: PlacedElement, options: Options): DetailedPart[] {
     if (element.kind !== 'table') {
       const h = element.kind === 'zone' ? .008 : height
       batch([part(width, h, depth, 0, h / 2, 0)], 'body', element.color)
-      return out
+      return
     }
     const thickness = Math.min(.06, height / 5), post = Math.min(.08, width / 5, depth / 5, height / 5)
     batch([part(width, thickness, depth, 0, height - thickness / 2, 0)], 'body', element.color)
     const legs: Part[] = []
     for (const x of [-1, 1]) for (const z of [-1, 1]) legs.push(part(post, height - thickness, post, x * (width - post) / 2, (height - thickness) / 2, z * (depth - post) / 2))
     batch(legs, 'leg', options.active ? '#aa843a' : '#7b8d89')
-    return out
+    return
   }
 
   const { width: length, depth: rackDepth, span, post, bays } = rackStructure(element)
@@ -63,17 +71,27 @@ function localParts(element: PlacedElement, options: Options): DetailedPart[] {
   const contents = buildRackContents(element)
   const colors = { wood: '#b58a55', cardboard: '#bd9767', bin: '#608fa3', label: '#ede9d9' }
   for (const material of ['wood', 'cardboard', 'bin', 'label'] as const) batch(contents.filter(p => p.material === material), material, colors[material])
-  return out
 }
 
-/** Parts of the detailed representation as plain data, with matrices in scene coordinates. */
-export function detailedParts(element: PlacedElement, options: Options): DetailedPart[] {
+/**
+ * Visits every part with its matrix in scene coordinates, without allocating per part.
+ * Parts of one material are contiguous and materials follow `PART_ORDER`.
+ */
+export function visitDetailedParts(element: PlacedElement, options: Options, visit: PartVisitor) {
   const bounds = footprint(element)
   const world = new THREE.Matrix4().compose(
     new THREE.Vector3((bounds.x + bounds.w / 2) / 1000, 0, (bounds.y + bounds.d / 2) / 1000),
     new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), -element.rotation * Math.PI / 180),
     new THREE.Vector3(1, 1, 1))
-  return localParts(element, options).map(p => ({ ...p, matrix: world.clone().multiply(p.matrix) }))
+  const scene = new THREE.Matrix4()
+  visitLocalParts(element, options, (material, color, local) => visit(material, color, scene.multiplyMatrices(world, local)))
+}
+
+/** Parts of the detailed representation as plain data, with matrices in scene coordinates. */
+export function detailedParts(element: PlacedElement, options: Options): DetailedPart[] {
+  const out: DetailedPart[] = []
+  visitDetailedParts(element, options, (material, color, matrix) => out.push({ material, color: color.clone(), matrix: matrix.clone() }))
+  return out
 }
 
 /**
@@ -88,14 +106,15 @@ export function addDetailedElement(parent: THREE.Group, element: PlacedElement, 
   group.rotation.y = -element.rotation * Math.PI / 180
   parent.add(group)
 
-  const parts = localParts(element, options)
+  const parts: DetailedPart[] = []
+  visitLocalParts(element, options, (material, color, matrix) => parts.push({ material, color: color.clone(), matrix: matrix.clone() }))
   for (const material of PART_ORDER) {
     const batch = parts.filter(p => p.material === material)
     if (!batch.length) continue
     const mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ color: batch[0].color, roughness: .65, metalness: PART_METALNESS[material] }), batch.length)
     batch.forEach((p, i) => mesh.setMatrixAt(i, p.matrix))
     mesh.instanceMatrix.needsUpdate = true
-    mesh.userData.id = element.id; mesh.userData.detailed = true
+    mesh.userData.id = element.id; mesh.userData.detailed = true; mesh.userData.material = material
     mesh.computeBoundingBox(); mesh.computeBoundingSphere()
     group.add(mesh)
   }

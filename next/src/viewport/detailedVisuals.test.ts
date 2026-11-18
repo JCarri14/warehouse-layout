@@ -52,6 +52,31 @@ describe('representación estructural detallada', () => {
     expect(bounds.max.x - bounds.min.x).toBeCloseTo(1)
     expect(bounds.max.z - bounds.min.z).toBeCloseTo(2)
   })
+  it.each([0, 90, 180, 270] as const)('detailedParts coincide pieza a pieza con addDetailedElement a %s°', rotation => {
+    const base = addRack(createWarehouse()).racks[0]
+    // A wide rack and one deeper than wide (the local axes turn); both asymmetric so mirroring or a wrong turn sign shows.
+    const elements = [
+      { ...base, rotation, xMm: 3100, yMm: 1700, widthMm: 4200, depthMm: 1100, contents: 'pallets' as const },
+      { ...base, rotation, xMm: 900, yMm: 5300, widthMm: 1300, depthMm: 5600, columns: 6, contents: 'bins' as const, access: 'left' as const },
+    ]
+    for (const element of elements) {
+      const parent = new THREE.Group(), group = addDetailedElement(parent, element, { active: false })
+      parent.updateMatrixWorld(true)
+      const parts = detailedParts(element, { active: false }), instance = new THREE.Matrix4(), world = new THREE.Matrix4()
+      let compared = 0
+      for (const mesh of group.children as THREE.InstancedMesh[]) {
+        const own = parts.filter(part => part.material === mesh.userData.material)
+        expect(own).toHaveLength(mesh.count)
+        own.forEach((part, i) => {
+          mesh.getMatrixAt(i, instance)
+          world.multiplyMatrices(mesh.matrixWorld, instance)
+          world.elements.forEach((value, k) => expect(value).toBeCloseTo(part.matrix.elements[k], 4))
+          compared++
+        })
+      }
+      expect(compared).toBe(parts.length)
+    }
+  })
   it('detailedParts reproduce las piezas de addDetailedElement', () => {
     const base = addRack(createWarehouse()).racks[0]
     const table = { id: 'mesa', code: 'M', kind: 'table' as const, name: 'Mesa', color: '#336699', xMm: 1000, yMm: 2000, widthMm: 2000, depthMm: 1000, heightMm: 900, rotation: 90 as const }
