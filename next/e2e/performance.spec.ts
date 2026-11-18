@@ -27,6 +27,8 @@ test('muestra sintética de 200 estanterías', async ({ page, browserName }) => 
     w.longTasks = []
     try { new PerformanceObserver(list => { for (const e of list.getEntries()) w.longTasks.push(e.duration) }).observe({ type: 'longtask', buffered: true }) } catch { /* longtask unsupported */ }
   })
+  let workersSpawned = 0
+  page.on('worker', () => { workersSpawned++ })
   await page.goto('/app')
   const start = Date.now()
   await page.getByLabel('Abrir archivo de almacén').setInputFiles({ name: 'muestra.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(doc)) })
@@ -58,6 +60,7 @@ test('muestra sintética de 200 estanterías', async ({ page, browserName }) => 
   await page.getByLabel('Archivo de inventario').setInputFiles(xlsxPath)
   await page.getByRole('dialog').getByRole('button', { name: 'Importar inventario', exact: true }).waitFor()
   const readMs = Date.now() - importStart
+  expect(workersSpawned).toBeGreaterThan(0) // the workbook was read in a worker, not through the main-thread fallback
   const readTasks = await page.evaluate(() => (window as unknown as { longTasks: number[] }).longTasks.splice(0))
   const readLongestTaskMs = Math.max(0, ...readTasks)
   await page.getByRole('dialog').getByRole('button', { name: 'Importar inventario', exact: true }).click()

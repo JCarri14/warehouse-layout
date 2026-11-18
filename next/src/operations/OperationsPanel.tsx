@@ -84,7 +84,7 @@ export function OperationsPanel(p: Props) {
     readTask.current = task
     setReading(true)
     try { const tables = await task.promise; if (readTask.current === task) setImporting({ tables, fileName: file.name, kind }) }
-    catch (e) { if ((e as Error).name !== 'AbortError') p.notify((e as Error).message, true) }
+    catch (e) { if ((e as Error).name !== 'AbortError' && readTask.current === task) p.notify((e as Error).message, true) }
     finally { if (readTask.current === task) { readTask.current = null; setReading(false) } }
   }
   const saveOrder = () => {
