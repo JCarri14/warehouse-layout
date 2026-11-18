@@ -84,15 +84,15 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   await page.waitForTimeout(300)
   const targets = PICK_TARGETS.map(([x, y]) => ({ x, y }))
   await page.evaluate(() => {
-    const w = window as unknown as { pickStart: number; pickTimes: number[] }
-    w.pickTimes = []; w.pickStart = 0
+    const w = window as unknown as { pickStart: number; pickTimes: number[]; pickTitles: string[] }
+    w.pickTimes = []; w.pickTitles = []; w.pickStart = 0
     window.addEventListener('pointerdown', () => { w.pickStart = performance.now() }, true)
     // The element list is virtualized, so the active row may not be mounted; the properties title (rack code) changes in the same render as `.active`.
     const title = () => document.querySelector('.property-title h3')?.textContent ?? ''
     let last = title()
     new MutationObserver(() => {
       const now = title()
-      if (w.pickStart && now !== last) { w.pickTimes.push(performance.now() - w.pickStart); w.pickStart = 0 }
+      if (w.pickStart && now !== last) { w.pickTimes.push(performance.now() - w.pickStart); w.pickTitles.push(now); w.pickStart = 0 }
       last = now
     }).observe(document.querySelector('.properties-panel')!, { subtree: true, childList: true, characterData: true })
   })
@@ -103,8 +103,11 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
     await page.waitForTimeout(80)
   }
   const pickTimes = await page.evaluate(() => (window as unknown as { pickTimes: number[] }).pickTimes)
+  const pickTitles = await page.evaluate(() => (window as unknown as { pickTitles: string[] }).pickTitles)
+  expect(pickTitles).toHaveLength(20)
+  for (const title of pickTitles) expect(title).toMatch(/^[A-Z]\d$/)
   const sorted = [...pickTimes].sort((a, b) => a - b), pickMs = (sorted[9] + sorted[10]) / 2
   expect(pickMs).toBeGreaterThan(0)
-  await fs.writeFile('artifacts/scene-performance.json', JSON.stringify({ racks: 200, selection, camera, warmCamera, detailedSelection, idle, selectionMs, calls, pickMs, pickTimes, note: 'Muestra sintética Chromium/SwiftShader; selección reconstruye únicamente elementos que cambian. Reposo medido durante 600 ms.' }, null, 2))
+  await fs.writeFile('artifacts/scene-performance.json', JSON.stringify({ racks: 200, selection, camera, warmCamera, detailedSelection, idle, selectionMs, calls, pickMs, pickTimes, pickTitles, note: 'Muestra sintética Chromium/SwiftShader; selección reconstruye únicamente elementos que cambian. Reposo medido durante 600 ms.' }, null, 2))
 })
 

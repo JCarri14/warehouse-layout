@@ -16,6 +16,7 @@ import { drawBeam, drawRoute } from './routeVisuals'
 import type { RouteResult } from '../operations/types'
 import type { RouteSettings } from '../operations/types'
 import { addDetailedElement } from './detailedVisuals'
+import { elementBoxes, pickElement, type PickBox } from './elementPicker'
 import { installPlanInteraction, type PlanActions } from './planInteraction'
 import type { WarehouseEdge } from '../warehouse/resize'
 
@@ -61,6 +62,8 @@ export function WarehouseViewport(props: Props) {
       }
       return changed
     }
+    let pickBoxes: PickBox[] = []
+    const endpointMeshes = new Set<THREE.Mesh>()
     let borders: Partial<Record<WarehouseEdge, THREE.LineSegments>> = {}, handles: Partial<Record<WarehouseEdge, THREE.Mesh>> = {}
     let width = 32, depth = 34, height = 0, currentView = 'iso'
     let elementResizer: ReturnType<typeof installElementResize> | undefined
@@ -108,6 +111,7 @@ export function WarehouseViewport(props: Props) {
     }
     const refresh = (document: WarehouseDocument, selection: string | null, focused?: ResolvedLocation, route?: RouteResult, activeStop?: number) => {
       layers.begin()
+      pickBoxes = elementBoxes(document)
       const currentLanguage = getLanguage()
       width = document.widthMm / 1000; depth = document.depthMm / 1000
       height = Math.max(0, ...allElements(document).map(e => elementHeight(e) / 1000))
@@ -191,7 +195,7 @@ export function WarehouseViewport(props: Props) {
         const geometry = kind === 'start' ? new THREE.CylinderGeometry(1, 1, .18, 24) : new THREE.BoxGeometry(1.4, .18, 1.4)
         const marker = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color, depthTest: false }))
         if (kind === 'end') marker.rotation.y = Math.PI / 4
-        marker.position.set(point.xMm / 1000, .18, point.yMm / 1000); marker.userData.endpoint = kind; marker.userData.screenSize = 6; marker.renderOrder = 30; group.add(marker)
+        marker.position.set(point.xMm / 1000, .18, point.yMm / 1000); marker.userData.endpoint = kind; endpointMeshes.add(marker); marker.userData.screenSize = 6; marker.renderOrder = 30; group.add(marker)
         drawBeam(group, point.xMm / 1000, point.yMm / 1000, .2, .55, 1.6, color, .18)
         label(kind === 'start' ? t(closed ? 'Inicio / regreso' : 'Inicio') : t('Destino'), point.xMm / 1000, 1, point.yMm / 1000, false, 100)
       }
@@ -276,9 +280,12 @@ export function WarehouseViewport(props: Props) {
     let resizePreview: THREE.LineSegments | null = null
     const planInteraction = installPlanInteraction({ previewPoint: pointPreview.show, canvas: renderer.domElement, camera, controls,
       context: () => ({ ...contextRef.current, widthMm: contextRef.current.document.widthMm, depthMm: contextRef.current.document.depthMm, gridMm: contextRef.current.document.gridSizeMm ?? 1000 }),
-      endpoint: ray => ray.intersectObjects(group.children, true).find(h => h.object.userData.endpoint)?.object.userData.endpoint,
-      handleAt: ray => ray.intersectObjects(group.children, true).find(h => h.object.userData.resizeEdge)?.object.userData.resizeEdge,
-      solidAt: ray => ray.intersectObjects(group.children, true).some(h => h.object instanceof THREE.Mesh && h.object.userData.id && h.object.userData.kind !== 'zone'),
+      endpoint: ray => {
+        for (const mesh of endpointMeshes) if (!mesh.parent) endpointMeshes.delete(mesh)
+        return ray.intersectObjects([...endpointMeshes], false)[0]?.object.userData.endpoint
+      },
+      handleAt: ray => ray.intersectObjects(Object.values(handles), false)[0]?.object.userData.resizeEdge,
+      solidAt: ray => { const hit = pickElement(ray.ray, pickBoxes, null); return !!hit && hit.kind !== 'zone' },
       hover: edge => {
         for (const key of ['left','right','top','bottom'] as const) {
           const border = borders[key], handle = handles[key]
@@ -299,8 +306,10 @@ export function WarehouseViewport(props: Props) {
       }
     })
     const interaction = installDragInteraction({ canvas: renderer.domElement, camera, controls, context: () => contextRef.current, pick: ray => {
-      const hits = ray.intersectObjects(group.children, true).filter(h => h.object instanceof THREE.Mesh)
-      return hits.find(h => h.object.userData.id && h.object.userData.kind !== 'zone') ?? hits.find(h => h.object.userData.kind === 'zone' && h.object.userData.id === contextRef.current.selected) ?? hits.find(h => h.object.userData.kind === 'zone') ?? hits[0]
+      const hit = pickElement(ray.ray, pickBoxes, contextRef.current.selected)
+      if (hit) return { id: hit.id, point: hit.point }
+      const point = ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), new THREE.Vector3())
+      return point && point.x >= 0 && point.x <= width && point.z >= 0 && point.z <= depth ? { id: null, point } : undefined
     }, preview, hint: (message, valid) => setHint({ message, valid }) })
     const observer = new ResizeObserver(() => { elementResizer?.cancel(); planInteraction.cancel(); interaction.cancel(); resize() }); observer.observe(element)
     controls.addEventListener('change', render)
