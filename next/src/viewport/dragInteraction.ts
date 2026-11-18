@@ -13,7 +13,7 @@ export type DragContext = {
 }
 type Options = {
   canvas: HTMLCanvasElement; camera: THREE.Camera; controls: OrbitControls;
-  context: () => DragContext; pick: (ray: THREE.Raycaster) => THREE.Intersection | undefined;
+  context: () => DragContext; pick: (ray: THREE.Raycaster) => { id: string | null; point: THREE.Vector3 } | undefined;
   preview: (rack: PlacedElement | null, valid: boolean) => void; hint: (message: string, valid: boolean) => void;
 }
 export function installDragInteraction(o: Options) {
@@ -37,7 +37,7 @@ export function installDragInteraction(o: Options) {
     const c = o.context()
     click = { x: e.clientX, y: e.clientY, id: e.pointerId, eligible: e.button === 0 && c.tool === 'select' && !space }
     if (!click.eligible) return
-    const hit = o.pick(ray(e)), id = hit?.object.userData.id as string | undefined
+    const hit = o.pick(ray(e)), id = hit?.id ?? undefined
     const rack = allElements(c.document).find(r => r.id === id)
     if (!hit || !rack) return
     e.preventDefault(); e.stopImmediatePropagation(); o.canvas.focus({ preventScroll: true })
@@ -70,7 +70,7 @@ export function installDragInteraction(o: Options) {
       return
     }
     if (click?.id === e.pointerId && click.eligible && Math.hypot(e.clientX - click.x, e.clientY - click.y) <= 4) {
-      o.context().onSelect((o.pick(ray(e))?.object.userData.id as string | undefined) ?? null)
+      o.context().onSelect(o.pick(ray(e))?.id ?? null)
     }
     click = null
   }

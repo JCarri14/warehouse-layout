@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import * as THREE from 'three'
 import { addRack, createWarehouse, footprint } from '../warehouse/document'
-import { addDetailedElement } from './detailedVisuals'
+import { addDetailedElement, detailedParts, PART_METALNESS } from './detailedVisuals'
 
 describe('representación estructural detallada', () => {
   it.each([0, 90, 180, 270] as const)('respeta la huella girada %s y usa cotas reales', rotation => {
@@ -51,5 +51,61 @@ describe('representación estructural detallada', () => {
     expect(bounds.max.y).toBeCloseTo(.9)
     expect(bounds.max.x - bounds.min.x).toBeCloseTo(1)
     expect(bounds.max.z - bounds.min.z).toBeCloseTo(2)
+  })
+  it.each([0, 90, 180, 270] as const)('detailedParts coincide pieza a pieza con addDetailedElement a %s°', rotation => {
+    const base = addRack(createWarehouse()).racks[0]
+    // A wide rack and one deeper than wide (the local axes turn); both asymmetric so mirroring or a wrong turn sign shows.
+    const elements = [
+      { ...base, rotation, xMm: 3100, yMm: 1700, widthMm: 4200, depthMm: 1100, contents: 'pallets' as const },
+      { ...base, rotation, xMm: 900, yMm: 5300, widthMm: 1300, depthMm: 5600, columns: 6, contents: 'bins' as const, access: 'left' as const },
+    ]
+    for (const element of elements) {
+      const parent = new THREE.Group(), group = addDetailedElement(parent, element, { active: false })
+      parent.updateMatrixWorld(true)
+      const parts = detailedParts(element, { active: false }), instance = new THREE.Matrix4(), world = new THREE.Matrix4()
+      let compared = 0
+      for (const mesh of group.children as THREE.InstancedMesh[]) {
+        const own = parts.filter(part => part.material === mesh.userData.material)
+        expect(own).toHaveLength(mesh.count)
+        own.forEach((part, i) => {
+          mesh.getMatrixAt(i, instance)
+          world.multiplyMatrices(mesh.matrixWorld, instance)
+          world.elements.forEach((value, k) => expect(value).toBeCloseTo(part.matrix.elements[k], 4))
+          compared++
+        })
+      }
+      expect(compared).toBe(parts.length)
+    }
+  })
+  it('detailedParts reproduce las piezas de addDetailedElement', () => {
+    const base = addRack(createWarehouse()).racks[0]
+    const table = { id: 'mesa', code: 'M', kind: 'table' as const, name: 'Mesa', color: '#336699', xMm: 1000, yMm: 2000, widthMm: 2000, depthMm: 1000, heightMm: 900, rotation: 90 as const }
+    const obstacle = { id: 'obs', code: 'O', kind: 'obstacle' as const, name: 'Obstáculo', color: '#996633', xMm: 500, yMm: 700, widthMm: 800, depthMm: 600, heightMm: 1500, rotation: 270 as const }
+    const zone = { id: 'zona', code: 'Z', kind: 'zone' as const, name: 'Zona', color: '#669933', xMm: 100, yMm: 300, widthMm: 3000, depthMm: 2000, rotation: 180 as const }
+    const racks = (['shelves', 'pallets', 'bins', 'cartons'] as const).flatMap(contents => [0, 90].map(rotation => ({ ...base, contents, rotation: rotation as 0 | 90, widthMm: 2400, depthMm: contents === 'pallets' ? 1100 : 800 })))
+    const deep = { ...base, contents: 'bins' as const, widthMm: 2000, depthMm: 6000, columns: 8, rotation: 90 as const }
+    for (const element of [...racks, deep, table, obstacle, zone]) for (const active of [false, true]) {
+      const group = addDetailedElement(new THREE.Group(), element, { active })
+      group.updateMatrixWorld(true)
+      const expected = new Map<string, number>()
+      for (const mesh of group.children as THREE.InstancedMesh[]) {
+        const material = mesh.material as THREE.MeshStandardMaterial
+        const key = `${material.color.getHexString()}|${material.metalness}`
+        expected.set(key, (expected.get(key) ?? 0) + mesh.count)
+      }
+      const parts = detailedParts(element, { active }), actual = new Map<string, number>()
+      for (const part of parts) {
+        const key = `${part.color.getHexString()}|${PART_METALNESS[part.material]}`
+        actual.set(key, (actual.get(key) ?? 0) + 1)
+      }
+      expect(actual).toEqual(expected)
+      const box = new THREE.Box3(), unit = new THREE.Box3(new THREE.Vector3(-.5, -.5, -.5), new THREE.Vector3(.5, .5, .5))
+      for (const part of parts) box.union(unit.clone().applyMatrix4(part.matrix))
+      const reference = new THREE.Box3().setFromObject(group)
+      for (const axis of ['x', 'y', 'z'] as const) {
+        expect(box.min[axis]).toBeCloseTo(reference.min[axis])
+        expect(box.max[axis]).toBeCloseTo(reference.max[axis])
+      }
+    }
   })
 })

@@ -1,4 +1,5 @@
-import { RackAppearance } from './rackAppearance'
+import { RackAppearance, combineDimmable, type Dimmable } from './rackAppearance'
+import { RackBatches } from './rackBatches'
 import { designFocusIds } from './designFocus'
 import { SceneLayers } from './sceneLayers'
 import { installElementResize } from './elementResizeInteraction'
@@ -16,6 +17,7 @@ import { drawBeam, drawRoute } from './routeVisuals'
 import type { RouteResult } from '../operations/types'
 import type { RouteSettings } from '../operations/types'
 import { addDetailedElement } from './detailedVisuals'
+import { elementBoxes, pickElement, type PickBox } from './elementPicker'
 import { installPlanInteraction, type PlanActions } from './planInteraction'
 import type { WarehouseEdge } from '../warehouse/resize'
 
@@ -48,7 +50,17 @@ export function WarehouseViewport(props: Props) {
     const light = new THREE.DirectionalLight('#fff5df', 2); light.position.set(15, 30, 10); scene.add(light)
     const group = new THREE.Group(); scene.add(group)
     const layers = new SceneLayers(group)
-    const appearances = new Map<string, RackAppearance>()
+    const appearances = new Map<string, Dimmable>()
+    // Per-rack label/access appearances of batched racks, kept while their `rack-labels:` layer is reused.
+    const labelAppearances = new Map<string, RackAppearance>()
+    let rackBatches: RackBatches | null = null
+    if (import.meta.env.DEV) Object.assign(window, { __viewportDebug: {
+      /** Current instance colour (hex) of a rack's first batched part (body in blocks mode, frame in detailed mode), or null when it is not drawn by the batch (hidden as the selection). */
+      rackColor: (id: string) => {
+        const bodies = rackBatches?.objects[0] as THREE.InstancedMesh | undefined, index = rackBatches?.hidden === id ? -1 : bodies?.userData.ids.indexOf(id) ?? -1
+        return bodies && index >= 0 ? bodies.getColorAt(index, new THREE.Color()).getHexString() : null
+      },
+    } })
     let matchingRacks: Set<string> | null = contextRef.current.rackMatches == null ? null : new Set(contextRef.current.rackMatches)
     const applyAppearances = () => {
       let changed = false
@@ -61,6 +73,8 @@ export function WarehouseViewport(props: Props) {
       }
       return changed
     }
+    let pickBoxes: PickBox[] = []
+    const endpointMeshes = new Set<THREE.Mesh>()
     let borders: Partial<Record<WarehouseEdge, THREE.LineSegments>> = {}, handles: Partial<Record<WarehouseEdge, THREE.Mesh>> = {}
     let width = 32, depth = 34, height = 0, currentView = 'iso'
     let elementResizer: ReturnType<typeof installElementResize> | undefined
@@ -90,7 +104,7 @@ export function WarehouseViewport(props: Props) {
       elementResizer?.updateHandles()
       renderer.render(scene, camera)
     }
-    const disposeGroup = () => { layers.dispose(); appearances.clear(); scene.remove(group) }
+    const disposeGroup = () => { layers.dispose(); appearances.clear(); labelAppearances.clear(); rackBatches = null; scene.remove(group) }
     function box(w: number, h: number, d: number, x: number, y: number, z: number, color: string, id?: string) {
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({ color, roughness: .85, metalness: .05 }))
       mesh.position.set(x, y, z); mesh.userData.id = id; group.add(mesh); return mesh
@@ -108,6 +122,7 @@ export function WarehouseViewport(props: Props) {
     }
     const refresh = (document: WarehouseDocument, selection: string | null, focused?: ResolvedLocation, route?: RouteResult, activeStop?: number) => {
       layers.begin()
+      pickBoxes = elementBoxes(document)
       const currentLanguage = getLanguage()
       width = document.widthMm / 1000; depth = document.depthMm / 1000
       height = Math.max(0, ...allElements(document).map(e => elementHeight(e) / 1000))
@@ -133,8 +148,29 @@ export function WarehouseViewport(props: Props) {
         appearances.set(zone.id, new RackAppearance(group.children.slice(start)))
         })
       }
+      const detailed = contextRef.current.representation === 'detailed' && contextRef.current.view === 'iso'
+      // Every rack shares the batched objects of the current representation (three in blocks mode, one per part
+      // material in detailed mode); labels and access lines stay per rack. The selected rack is drawn by its own
+      // layer and only hidden inside the batch, so changing the selection never rebuilds or re-uploads the batch.
+      layers.use('rack-batch', [document.racks, detailed], () => {
+        rackBatches = new RackBatches(document.racks, { mode: detailed ? 'detailed' : 'blocks' })
+        for (const object of rackBatches.objects) group.add(object)
+      })
+      rackBatches!.setHidden(selection)
       for (const rack of document.racks) {
-        const detailed = contextRef.current.representation === 'detailed' && contextRef.current.view === 'iso'
+        if (rack.id === selection) continue
+        const rackFocus = focused?.rackId === rack.id ? focused : undefined
+        layers.use(`rack-labels:${rack.id}`, [rack, rackFocus, currentLanguage], () => {
+          const start = group.children.length
+          const b = footprint(rack), x = b.x / 1000, z = b.y / 1000, w = b.w / 1000, d = b.d / 1000, h = elementHeight(rack) / 1000
+          label(rack.code, x + w / 2, h + .8, z + d / 2, false)
+          drawAccess(group, rack, false, focused, label)
+          labelAppearances.set(rack.id, new RackAppearance(group.children.slice(start)))
+        })
+        appearances.set(rack.id, combineDimmable([rackBatches!.appearance(rack.id)!, labelAppearances.get(rack.id)!]))
+      }
+      for (const rack of document.racks) {
+        if (rack.id !== selection) continue
         const rackFocus = focused?.rackId === rack.id ? focused : undefined
         layers.use(`rack:${rack.id}`, [rack, rack.id === selection, rackFocus, detailed, currentLanguage], () => {
         const rackStart = group.children.length
@@ -191,7 +227,7 @@ export function WarehouseViewport(props: Props) {
         const geometry = kind === 'start' ? new THREE.CylinderGeometry(1, 1, .18, 24) : new THREE.BoxGeometry(1.4, .18, 1.4)
         const marker = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ color, depthTest: false }))
         if (kind === 'end') marker.rotation.y = Math.PI / 4
-        marker.position.set(point.xMm / 1000, .18, point.yMm / 1000); marker.userData.endpoint = kind; marker.userData.screenSize = 6; marker.renderOrder = 30; group.add(marker)
+        marker.position.set(point.xMm / 1000, .18, point.yMm / 1000); marker.userData.endpoint = kind; endpointMeshes.add(marker); marker.userData.screenSize = 6; marker.renderOrder = 30; group.add(marker)
         drawBeam(group, point.xMm / 1000, point.yMm / 1000, .2, .55, 1.6, color, .18)
         label(kind === 'start' ? t(closed ? 'Inicio / regreso' : 'Inicio') : t('Destino'), point.xMm / 1000, 1, point.yMm / 1000, false, 100)
       }
@@ -210,6 +246,7 @@ export function WarehouseViewport(props: Props) {
       layers.end()
       const elementIds = new Set(allElements(document).map(element => element.id))
       for (const id of appearances.keys()) if (!elementIds.has(id)) appearances.delete(id)
+      for (const id of labelAppearances.keys()) if (!elementIds.has(id) || id === selection) labelAppearances.delete(id)
       applyAppearances(); render()
     }
     const setCamera = (mode: string) => {
@@ -276,9 +313,12 @@ export function WarehouseViewport(props: Props) {
     let resizePreview: THREE.LineSegments | null = null
     const planInteraction = installPlanInteraction({ previewPoint: pointPreview.show, canvas: renderer.domElement, camera, controls,
       context: () => ({ ...contextRef.current, widthMm: contextRef.current.document.widthMm, depthMm: contextRef.current.document.depthMm, gridMm: contextRef.current.document.gridSizeMm ?? 1000 }),
-      endpoint: ray => ray.intersectObjects(group.children, true).find(h => h.object.userData.endpoint)?.object.userData.endpoint,
-      handleAt: ray => ray.intersectObjects(group.children, true).find(h => h.object.userData.resizeEdge)?.object.userData.resizeEdge,
-      solidAt: ray => ray.intersectObjects(group.children, true).some(h => h.object instanceof THREE.Mesh && h.object.userData.id && h.object.userData.kind !== 'zone'),
+      endpoint: ray => {
+        for (const mesh of endpointMeshes) if (!mesh.parent) endpointMeshes.delete(mesh)
+        return ray.intersectObjects([...endpointMeshes], false)[0]?.object.userData.endpoint
+      },
+      handleAt: ray => ray.intersectObjects(Object.values(handles), false)[0]?.object.userData.resizeEdge,
+      solidAt: ray => { const hit = pickElement(ray.ray, pickBoxes, null); return !!hit && hit.kind !== 'zone' },
       hover: edge => {
         for (const key of ['left','right','top','bottom'] as const) {
           const border = borders[key], handle = handles[key]
@@ -299,14 +339,17 @@ export function WarehouseViewport(props: Props) {
       }
     })
     const interaction = installDragInteraction({ canvas: renderer.domElement, camera, controls, context: () => contextRef.current, pick: ray => {
-      const hits = ray.intersectObjects(group.children, true).filter(h => h.object instanceof THREE.Mesh)
-      return hits.find(h => h.object.userData.id && h.object.userData.kind !== 'zone') ?? hits.find(h => h.object.userData.kind === 'zone' && h.object.userData.id === contextRef.current.selected) ?? hits.find(h => h.object.userData.kind === 'zone') ?? hits[0]
+      const hit = pickElement(ray.ray, pickBoxes, contextRef.current.selected)
+      if (hit) return { id: hit.id, point: hit.point }
+      const point = ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), new THREE.Vector3())
+      return point && point.x >= 0 && point.x <= width && point.z >= 0 && point.z <= depth ? { id: null, point } : undefined
     }, preview, hint: (message, valid) => setHint({ message, valid }) })
     const observer = new ResizeObserver(() => { elementResizer?.cancel(); planInteraction.cancel(); interaction.cancel(); resize() }); observer.observe(element)
     controls.addEventListener('change', render)
     sceneState.current = { filterRacks: ids => { matchingRacks = ids === null ? null : new Set(ids); if (applyAppearances()) render() }, refresh, camera: setCamera, fit: fitScene, focusSelection, cancel: () => { elementResizer?.cancel(); planInteraction.cancel(); interaction.cancel() } }
     refresh(doc, selected); fitScene()
     return () => {
+      if (import.meta.env.DEV) delete (window as { __viewportDebug?: unknown }).__viewportDebug
       sceneState.current = null; observer.disconnect(); elementResizer?.dispose(); planInteraction.dispose(); interaction.dispose(); clearGhost(); controls.dispose(); disposeGroup(); renderer.dispose(); renderer.domElement.remove()
     }
     // Scene lifecycle is independent from document updates.
