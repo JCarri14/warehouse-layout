@@ -2,6 +2,8 @@ import { RackAppearance, combineDimmable, type Dimmable } from './rackAppearance
 import { RackBatches } from './rackBatches'
 import { designFocusIds } from './designFocus'
 import { SceneLayers } from './sceneLayers'
+import { LABEL_HEIGHT, LabelAtlas, labelWidthPx } from './labelAtlas'
+import { createLabelMarker, isLabelMarker, LabelLayer, type LabelMarker } from './labelLayer'
 import { installElementResize } from './elementResizeInteraction'
 import { visibleGridStepMm } from './pointPlacement'
 import { createPointPreview } from './pointPreview'
@@ -12,7 +14,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { allElements, elementHeight, footprint, type PlacedElement, type WarehouseDocument } from '../warehouse/document'
 import { installDragInteraction, type DragContext } from './dragInteraction'
 import type { ResolvedLocation } from '../warehouse/locations'
-import { drawAccess } from './accessVisuals'
+import { drawAccess, MAX_INDIVIDUAL_COLUMN_LABELS } from './accessVisuals'
 import { drawBeam, drawRoute } from './routeVisuals'
 import type { RouteResult } from '../operations/types'
 import type { RouteSettings } from '../operations/types'
@@ -22,6 +24,7 @@ import { installPlanInteraction, type PlanActions } from './planInteraction'
 import type { WarehouseEdge } from '../warehouse/resize'
 
 type Props = DragContext & PlanActions & { designFocus?: boolean; rackMatches?: readonly string[] | null; onElementResize?: (id: string, edge: WarehouseEdge, delta: number, step: number) => void; onBeginElementResize?: (id: string) => boolean; focusMode?: boolean; selected: string | null; view: 'top' | 'iso'; fit: number; location?: ResolvedLocation; locateRequest: number; route?: RouteResult; activeStop?: number; representation?: 'blocks' | 'detailed'; points?: RouteSettings | null }
+const columnLabels = Array.from({ length: MAX_INDIVIDUAL_COLUMN_LABELS }, (_, index) => String(index + 1).padStart(2, '0'))
 export function WarehouseViewport(props: Props) {
   const language = useLanguage()
   const rackFilterKey = props.rackMatches == null ? '' : JSON.stringify([...props.rackMatches].sort())
@@ -50,11 +53,18 @@ export function WarehouseViewport(props: Props) {
     const light = new THREE.DirectionalLight('#fff5df', 2); light.position.set(15, 30, 10); scene.add(light)
     const group = new THREE.Group(); scene.add(group)
     const layers = new SceneLayers(group)
+    const atlas = new LabelAtlas(undefined, renderer.capabilities.maxTextureSize)
+    const labelLayer = new LabelLayer(atlas)
+    scene.add(labelLayer.mesh)
+    let markers: LabelMarker[] = []
+    let labels: Array<{ anchor: THREE.Vector3; width: number; priority: number; target: THREE.Sprite | number }> = []
+    let visibleLabels = 0
     const appearances = new Map<string, Dimmable>()
     // Per-rack label/access appearances of batched racks, kept while their `rack-labels:` layer is reused.
     const labelAppearances = new Map<string, RackAppearance>()
     let rackBatches: RackBatches | null = null
     if (import.meta.env.DEV) Object.assign(window, { __viewportDebug: {
+      labelStats: () => ({ visible: visibleLabels, sprites: labels.length - markers.length, instances: markers.length }),
       /** Current instance colour (hex) of a rack's first batched part (body in blocks mode, frame in detailed mode), or null when it is not drawn by the batch (hidden as the selection). */
       rackColor: (id: string) => {
         const bodies = rackBatches?.objects[0] as THREE.InstancedMesh | undefined, index = rackBatches?.hidden === id ? -1 : bodies?.userData.ids.indexOf(id) ?? -1
@@ -78,25 +88,29 @@ export function WarehouseViewport(props: Props) {
     let borders: Partial<Record<WarehouseEdge, THREE.LineSegments>> = {}, handles: Partial<Record<WarehouseEdge, THREE.Mesh>> = {}
     let width = 32, depth = 34, height = 0, currentView = 'iso'
     let elementResizer: ReturnType<typeof installElementResize> | undefined
+    const projected = new THREE.Vector3()
     const render = () => {
-      const unitsPerPixel = (camera.top - camera.bottom) / camera.zoom / Math.max(1, element.clientHeight)
+      const viewportWidth = element.clientWidth, viewportHeight = element.clientHeight
+      const unitsPerPixel = (camera.top - camera.bottom) / camera.zoom / Math.max(1, viewportHeight)
       const cameraRight = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion), cameraUp = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion)
       const occupied: Array<{ x: number; y: number; width: number }> = []
-      const priority = (sprite: THREE.Sprite) => Number(sprite.userData.active) * 100 + Number(sprite.userData.priority ?? 0)
-      const labels = group.children.filter((child): child is THREE.Sprite => child instanceof THREE.Sprite).sort((a, b) => priority(b) - priority(a))
-      labels.forEach(child => {
-        if (child.userData.anchor) child.position.copy(child.userData.anchor)
-        if (child.userData.priority === 100) child.position.addScaledVector(cameraUp, 20 * unitsPerPixel)
-        const labelWidth = Number(child.userData.labelWidth ?? 48)
-        child.scale.set(labelWidth * unitsPerPixel, 18 * unitsPerPixel, 1)
-        const p = child.position.clone().project(camera), x = (p.x + 1) * element.clientWidth / 2, y = (1 - p.y) * element.clientHeight / 2
-        if (child.userData.priority === 100) {
-          const clampedX = Math.min(element.clientWidth - labelWidth / 2 - 5, Math.max(labelWidth / 2 + 5, x)), clampedY = Math.min(element.clientHeight - 14, Math.max(14, y))
-          child.position.addScaledVector(cameraRight, (clampedX - x) * unitsPerPixel).addScaledVector(cameraUp, (y - clampedY) * unitsPerPixel)
+      for (const { anchor, width: labelWidth, target } of labels) {
+        const p = projected.copy(anchor)
+        if (typeof target !== 'number') p.addScaledVector(cameraUp, 20 * unitsPerPixel)
+        p.project(camera)
+        const x = (p.x + 1) * viewportWidth / 2, y = (1 - p.y) * viewportHeight / 2
+        const visible = p.z >= -1 && p.z <= 1 && !occupied.some(b => Math.abs(x - b.x) < (labelWidth + b.width) / 2 + 4 && Math.abs(y - b.y) < 23)
+        if (visible) occupied.push({ x, y, width: labelWidth })
+        if (typeof target === 'number') {
+          labelLayer.setVisible(target, visible)
+        } else {
+          const clampedX = Math.min(viewportWidth - labelWidth / 2 - 5, Math.max(labelWidth / 2 + 5, x)), clampedY = Math.min(viewportHeight - 14, Math.max(14, y))
+          target.scale.set(labelWidth * unitsPerPixel, LABEL_HEIGHT * unitsPerPixel, 1)
+          target.position.copy(anchor).addScaledVector(cameraRight, (clampedX - x) * unitsPerPixel).addScaledVector(cameraUp, (20 + y - clampedY) * unitsPerPixel)
+          target.visible = visible
         }
-        child.visible = p.z >= -1 && p.z <= 1 && !occupied.some(b => Math.abs(x - b.x) < (labelWidth + b.width) / 2 + 4 && Math.abs(y - b.y) < 23)
-        if (child.visible) occupied.push({ x, y, width: labelWidth })
-      })
+      }
+      visibleLabels = occupied.length
       group.traverse(child => {
         if (child.userData.screenSize) child.scale.setScalar(child.userData.screenSize * unitsPerPixel)
         if (child.userData.laneOffset && child.userData.anchor) child.position.copy(child.userData.anchor).addScaledVector(child.userData.laneOffset, 5 * unitsPerPixel)
@@ -110,8 +124,12 @@ export function WarehouseViewport(props: Props) {
       mesh.position.set(x, y, z); mesh.userData.id = id; group.add(mesh); return mesh
     }
     function label(text: string, x: number, y: number, z: number, active: boolean, priority = 0) {
-      const labelWidth = Math.max(48, Math.min(180, text.length * 7 + 16))
-      const c = window.document.createElement('canvas'); c.width = Math.round(labelWidth * 96 / 18); c.height = 96
+      if (priority !== 100) {
+        group.add(createLabelMarker(text, x, y, z, active, priority))
+        return
+      }
+      const labelWidth = labelWidthPx(text)
+      const c = window.document.createElement('canvas'); c.width = Math.round(labelWidth * 96 / LABEL_HEIGHT); c.height = 96
       const ctx = c.getContext('2d')!
       ctx.fillStyle = active ? '#194d48' : '#fbfcf9'; ctx.beginPath(); ctx.roundRect(3, 3, c.width - 6, 90, 14); ctx.fill()
       ctx.strokeStyle = active ? '#194d48' : '#bccbc3'; ctx.lineWidth = 3; ctx.stroke()
@@ -160,7 +178,7 @@ export function WarehouseViewport(props: Props) {
       for (const rack of document.racks) {
         if (rack.id === selection) continue
         const rackFocus = focused?.rackId === rack.id ? focused : undefined
-        layers.use(`rack-labels:${rack.id}`, [rack, rackFocus, currentLanguage], () => {
+        layers.use(`rack-labels:${rack.id}`, [rack, rackFocus], () => {
           const start = group.children.length
           const b = footprint(rack), x = b.x / 1000, z = b.y / 1000, w = b.w / 1000, d = b.d / 1000, h = elementHeight(rack) / 1000
           label(rack.code, x + w / 2, h + .8, z + d / 2, false)
@@ -172,7 +190,7 @@ export function WarehouseViewport(props: Props) {
       for (const rack of document.racks) {
         if (rack.id !== selection) continue
         const rackFocus = focused?.rackId === rack.id ? focused : undefined
-        layers.use(`rack:${rack.id}`, [rack, rack.id === selection, rackFocus, detailed, currentLanguage], () => {
+        layers.use(`rack:${rack.id}`, [rack, rack.id === selection, rackFocus, detailed], () => {
         const rackStart = group.children.length
         const b = footprint(rack), x = b.x / 1000, z = b.y / 1000, w = b.w / 1000, d = b.d / 1000, h = elementHeight(rack) / 1000
         const active = rack.id === selection, color = active ? '#d5a640' : rack.color
@@ -247,7 +265,22 @@ export function WarehouseViewport(props: Props) {
       const elementIds = new Set(allElements(document).map(element => element.id))
       for (const id of appearances.keys()) if (!elementIds.has(id)) appearances.delete(id)
       for (const id of labelAppearances.keys()) if (!elementIds.has(id) || id === selection) labelAppearances.delete(id)
-      applyAppearances(); render()
+      applyAppearances()
+      markers = []
+      labels = []
+      for (const child of group.children) {
+        if (isLabelMarker(child)) {
+          const { label, anchor } = child.userData
+          labels.push({ anchor, width: label.widthPx, priority: Number(label.active) * 100 + label.priority, target: markers.length })
+          markers.push(child)
+        } else if (child instanceof THREE.Sprite) {
+          const { anchor, labelWidth, active, priority } = child.userData
+          labels.push({ anchor, width: labelWidth, priority: Number(active) * 100 + priority, target: child })
+        }
+      }
+      labels.sort((a, b) => b.priority - a.priority)
+      labelLayer.sync(markers, document.racks.length ? columnLabels : [])
+      render()
     }
     const setCamera = (mode: string) => {
       currentView = mode
@@ -259,6 +292,7 @@ export function WarehouseViewport(props: Props) {
     const resize = () => {
       const w = element.clientWidth, h = element.clientHeight
       if (!w || !h) return
+      labelLayer.setViewport(w, h)
       renderer.setSize(w, h); const aspect = w / h
       const inverse = camera.quaternion.clone().invert()
       let halfW = 0, halfH = 0
@@ -346,11 +380,17 @@ export function WarehouseViewport(props: Props) {
     }, preview, hint: (message, valid) => setHint({ message, valid }) })
     const observer = new ResizeObserver(() => { elementResizer?.cancel(); planInteraction.cancel(); interaction.cancel(); resize() }); observer.observe(element)
     controls.addEventListener('change', render)
-    sceneState.current = { filterRacks: ids => { matchingRacks = ids === null ? null : new Set(ids); if (applyAppearances()) render() }, refresh, camera: setCamera, fit: fitScene, focusSelection, cancel: () => { elementResizer?.cancel(); planInteraction.cancel(); interaction.cancel() } }
+    sceneState.current = { filterRacks: ids => {
+      matchingRacks = ids === null ? null : new Set(ids)
+      if (applyAppearances()) {
+        markers.forEach((marker, index) => labelLayer.setOpacity(index, marker.userData.label.opacity))
+        render()
+      }
+    }, refresh, camera: setCamera, fit: fitScene, focusSelection, cancel: () => { elementResizer?.cancel(); planInteraction.cancel(); interaction.cancel() } }
     refresh(doc, selected); fitScene()
     return () => {
       if (import.meta.env.DEV) delete (window as { __viewportDebug?: unknown }).__viewportDebug
-      sceneState.current = null; observer.disconnect(); elementResizer?.dispose(); planInteraction.dispose(); interaction.dispose(); clearGhost(); controls.dispose(); disposeGroup(); renderer.dispose(); renderer.domElement.remove()
+      sceneState.current = null; observer.disconnect(); elementResizer?.dispose(); planInteraction.dispose(); interaction.dispose(); clearGhost(); controls.dispose(); disposeGroup(); labelLayer.dispose(); atlas.dispose(); renderer.dispose(); renderer.domElement.remove()
     }
     // Scene lifecycle is independent from document updates.
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -5,14 +5,25 @@ import fs from 'node:fs/promises'
 // Fixed viewport coordinates (1440x900, top view, after Encuadrar) on two adjacent racks of the first aisle row; clicks alternate so each changes the selection.
 const PICK_TARGETS: [number, number][] = [[345, 440], [377, 440]]
 
+type GpuCounts = { buffers: number; textures: number; labelUploads: number; draws: number; calls: number; bytes: number }
+
 test('selección y cámara reutilizan la escena de 200 estanterías', async ({ page }) => {
   test.setTimeout(90000)
   await page.addInitScript(() => {
-    const counters = { buffers: 0, textures: 0, draws: 0, calls: 0, bytes: 0 }
+    const counters: GpuCounts = { buffers: 0, textures: 0, labelUploads: 0, draws: 0, calls: 0, bytes: 0 }
     Object.assign(window, { sceneGpu: counters })
     // Bytes sent to GPU buffers, full (bufferData) or partial (bufferSubData) uploads alike.
     const size = (data: unknown, length?: unknown) => typeof data === 'number' ? data : ArrayBuffer.isView(data) ? (typeof length === 'number' && length ? length * ((data as unknown as { BYTES_PER_ELEMENT?: number }).BYTES_PER_ELEMENT ?? 1) : data.byteLength) : data instanceof ArrayBuffer ? data.byteLength : 0
     for (const prototype of [WebGLRenderingContext.prototype, WebGL2RenderingContext.prototype]) {
+      for (const method of ['texImage2D', 'texSubImage2D'] as const) {
+        const original = prototype[method] as (...args: unknown[]) => unknown
+        Object.defineProperty(prototype, method, { configurable: true, value: function (this: unknown, ...args: unknown[]) {
+          const source = args.at(-1)
+          // Label canvases have area. The existing access beam uses a 1 × 64 gradient.
+          if (source instanceof HTMLCanvasElement && source.width > 1) counters.labelUploads++
+          return original.apply(this, args)
+        } })
+      }
       const bufferData = prototype.bufferData as (...args: unknown[]) => unknown, bufferSubData = prototype.bufferSubData as (...args: unknown[]) => unknown
       Object.defineProperty(prototype, 'bufferData', { configurable: true, value: function (this: unknown, ...args: unknown[]) { counters.bytes += size(args[1], args[4]); return bufferData.apply(this, args) } })
       Object.defineProperty(prototype, 'bufferSubData', { configurable: true, value: function (this: unknown, ...args: unknown[]) { counters.bytes += size(args[2], args[4]); return bufferSubData.apply(this, args) } })
@@ -35,8 +46,9 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   await expect(page.locator('.element-row')).toHaveCount(200)
   // The list can be ready before the deferred 3D module has finished its initial render.
   await expect(page.locator('.canvas-panel canvas')).toBeVisible()
-  const reset = () => page.evaluate(() => { Object.assign((window as unknown as { sceneGpu: object }).sceneGpu, { buffers: 0, textures: 0, draws: 0, calls: 0, bytes: 0 }) })
-  const counts = () => page.evaluate(() => ({ ...(window as unknown as { sceneGpu: { buffers: number; textures: number; draws: number; calls: number; bytes: number } }).sceneGpu }))
+  const labelStats = () => page.evaluate(() => (window as unknown as { __viewportDebug: { labelStats: () => { visible: number; sprites: number; instances: number } } }).__viewportDebug.labelStats())
+  const reset = () => page.evaluate(() => { Object.assign((window as unknown as { sceneGpu: GpuCounts }).sceneGpu, { buffers: 0, textures: 0, labelUploads: 0, draws: 0, calls: 0, bytes: 0 }) })
+  const counts = () => page.evaluate(() => ({ ...(window as unknown as { sceneGpu: GpuCounts }).sceneGpu }))
   await page.waitForTimeout(200); await reset()
   const start = Date.now()
   await page.locator('.element-row').nth(100).click()
@@ -47,11 +59,10 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   await page.getByRole('button', { name: 'Superior', exact: true }).click()
   await page.waitForTimeout(100)
   const camera = await counts()
-  await fs.writeFile('artifacts/scene-performance.json', JSON.stringify({ racks: 200, selection, camera, selectionMs, note: 'Chromium / SwiftShader; latencia incluye automatización y espera de 100 ms.' }, null, 2))
   expect(selection.buffers).toBeLessThan(100)
   expect(selection.textures).toBeLessThan(20)
+  expect(selection.labelUploads).toBe(0)
   expect(camera.buffers).toBe(0)
-  // Newly visible labels upload their existing canvas texture lazily on first draw.
   await page.getByRole('button', { name: 'Isométrica', exact: true }).click()
   await page.getByRole('button', { name: 'Superior', exact: true }).click()
   await reset()
@@ -66,6 +77,7 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   await page.waitForTimeout(100)
   const detailedSelection = await counts()
   expect(detailedSelection.textures).toBeLessThan(20)
+  expect(detailedSelection.labelUploads).toBe(0)
   // The batch only hides the selected rack's slice: rebuilding it uploaded 66 buffers / 9.28 MB per click here;
   // hiding uploads 48 buffers (the selected rack's own layer) / ~97 kB. Blocks mode: 197 kB rebuilt vs ~88 kB hidden.
   expect(detailedSelection.buffers).toBeLessThanOrEqual(56)
@@ -84,10 +96,21 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
     await page.getByRole('button', { name: 'Encuadrar', exact: true }).click()
     await page.waitForTimeout(300)
     const c = await counts()
-    return { perFrame: Math.round(c.calls / Math.max(c.draws, 1)), total: c.calls, frames: c.draws }
+    const labels = await labelStats()
+    return { perFrame: Math.round(c.calls / Math.max(c.draws, 1)), total: c.calls, frames: c.draws, labels }
   }
   const callsBlocks = await drawCalls('blocks'), callsDetailed = await drawCalls('detailed')
   const calls = { blocks: callsBlocks.perFrame, detailed: callsDetailed.perFrame, raw: { blocks: callsBlocks, detailed: callsDetailed } }
+  const labels = { blocks: callsBlocks.labels, detailed: callsDetailed.labels }
+  // The sprite baseline drew 55 visible labels in each representation.
+  expect(calls.blocks).toBeLessThanOrEqual(280 - 55 + 3)
+  expect(calls.detailed).toBeLessThanOrEqual(284 - 55 + 3)
+  expect(labels.blocks.visible).toBe(55)
+  expect(labels.detailed.visible).toBe(55)
+  for (const stats of Object.values(labels)) {
+    expect(stats.sprites).toBe(0)
+    expect(stats.instances).toBeGreaterThanOrEqual(200)
+  }
   expect(calls.blocks).toBeGreaterThan(0); expect(calls.detailed).toBeGreaterThan(0)
   // Task 0 baseline: 1272 calls per frame in blocks mode; batching must keep it at or below 60 %.
   expect(calls.blocks).toBeLessThanOrEqual(Math.floor(1272 * .6))
@@ -124,7 +147,7 @@ test('selección y cámara reutilizan la escena de 200 estanterías', async ({ p
   for (const title of pickTitles) expect(title).toMatch(/^[A-Z]\d$/)
   const sorted = [...pickTimes].sort((a, b) => a - b), pickMs = (sorted[9] + sorted[10]) / 2
   expect(pickMs).toBeGreaterThan(0)
-  await fs.writeFile('artifacts/scene-performance.json', JSON.stringify({ racks: 200, selection, camera, warmCamera, detailedSelection, idle, selectionMs, calls, pickMs, pickTimes, pickTitles, note: 'Muestra sintética Chromium/SwiftShader; selección reconstruye únicamente elementos que cambian. Reposo medido durante 600 ms.' }, null, 2))
+  await fs.writeFile('artifacts/scene-performance.json', JSON.stringify({ racks: 200, selection, camera, warmCamera, detailedSelection, idle, selectionMs, calls, labels, pickMs, pickTimes, pickTitles, note: 'Muestra sintética Chromium/SwiftShader; selección reconstruye únicamente elementos que cambian. Reposo medido durante 600 ms.' }, null, 2))
 })
 
 test('el filtro de inventario atenúa estanterías en lote', async ({ page }) => {

@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { isLabelMarker, type LabelSpec } from './labelLayer'
 
 type ColoredMaterial = THREE.Material & { color: THREE.Color }
 /** Colour every dimmed element blends toward; shared by per-object and batched appearances. */
@@ -15,13 +16,16 @@ export function combineDimmable(parts: readonly Dimmable[]): Dimmable {
 export class RackAppearance implements Dimmable {
   private amount = 0
   private colors: Array<{ material: ColoredMaterial; original: THREE.Color }> = []
-  private labels: Array<{ material: THREE.SpriteMaterial; opacity: number }> = []
+  private labels: Array<{ target: THREE.SpriteMaterial | LabelSpec; opacity: number }> = []
 
   constructor(objects: THREE.Object3D[]) {
     const seen = new Set<THREE.Material>()
     for (const object of objects) object.traverse(child => {
-      if (child instanceof THREE.Sprite) {
-        if (!seen.has(child.material)) { this.labels.push({ material: child.material, opacity: child.material.opacity }); seen.add(child.material) }
+      if (isLabelMarker(child)) {
+        const label = child.userData.label
+        this.labels.push({ target: label, opacity: label.opacity })
+      } else if (child instanceof THREE.Sprite) {
+        if (!seen.has(child.material)) { this.labels.push({ target: child.material, opacity: child.material.opacity }); seen.add(child.material) }
       } else if (child instanceof THREE.Mesh || child instanceof THREE.LineSegments) {
         const materials = Array.isArray(child.material) ? child.material : [child.material]
         for (const material of materials) {
@@ -37,7 +41,7 @@ export class RackAppearance implements Dimmable {
     if (amount === this.amount) return false
     this.amount = amount
     for (const { material, original } of this.colors) { material.color.copy(original); if (amount) material.color.lerp(DIM_COLOR, amount) }
-    for (const { material, opacity } of this.labels) material.opacity = opacity * Math.max(.15, 1 - amount * .52 / .58)
+    for (const { target, opacity } of this.labels) target.opacity = opacity * Math.max(.15, 1 - amount * .52 / .58)
     return true
   }
 }

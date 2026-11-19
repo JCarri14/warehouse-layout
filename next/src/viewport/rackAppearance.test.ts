@@ -1,6 +1,16 @@
 import { expect, it } from 'vitest'
 import * as THREE from 'three'
 import { RackAppearance, combineDimmable } from './rackAppearance'
+import { createLabelMarker } from './labelLayer'
+
+it('atenúa y restaura la opacidad del marcador de etiqueta', () => {
+  const marker = createLabelMarker('A5', 0, 0, 0, false)
+  const appearance = new RackAppearance([marker])
+  expect(appearance.setDimmed(true, .58)).toBe(true)
+  expect(marker.userData.label.opacity).toBeCloseTo(.48)
+  expect(appearance.setDimmed(false)).toBe(true)
+  expect(marker.userData.label.opacity).toBe(1)
+})
 
 it('atenúa y restaura sin cambiar geometrías, materiales ni transparencia del cuerpo', () => {
   const material = new THREE.MeshStandardMaterial({ color: '#337b78' }), geometry = new THREE.BoxGeometry(1, 2, 3)

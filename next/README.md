@@ -65,7 +65,7 @@ La versión 2 añadió listas zones y fixtures obligatorias; la versión 3 añad
 
 Límites iniciales adicionales: 100 zonas y 200 elementos físicos auxiliares; códigos de 1–20 caracteres y nombres de 1–80. Los identificadores son únicos entre todas las colecciones. Los códigos de mesas y obstáculos comparten categoría; los códigos de zona y sección tienen categorías independientes. Las estanterías y los elementos físicos no pueden solaparse; las zonas solo se comparan con otras zonas. El contacto entre bordes está permitido.
 
-El visor utiliza bloques operativos con marcas de niveles reales. Sin altura real se usa una representación ilustrativa de 2,4 m, sin guardarla como dato real. No representa inventario ni capacidad de carga.
+El visor utiliza bloques operativos con marcas de niveles reales. Sin altura real se usa una representación ilustrativa de 2,4 m, sin guardarla como dato real. No representa inventario ni capacidad de carga. Las etiquetas del plano comparten un atlas de texto y una llamada de dibujo. Las de inicio y destino de un recorrido conservan su anclaje a los bordes.
 
 La web necesita que se sirvan los archivos de la aplicación. No hay todavía instalación offline/PWA ni paquete desktop.
 

@@ -3,6 +3,7 @@ import type { Rack } from '../warehouse/document'
 import { accessFace, columnAccess, type ResolvedLocation } from '../warehouse/locations'
 
 type Label = (text: string, x: number, y: number, z: number, active: boolean, priority?: number) => void
+export const MAX_INDIVIDUAL_COLUMN_LABELS = 12
 export function drawAccess(group: THREE.Group, rack: Rack, selected: boolean, location: ResolvedLocation | undefined, label: Label) {
   const face = accessFace(rack)
   const point = (p: typeof face.start, elevation = .035, offset = .1) => new THREE.Vector3(p.xMm / 1000 + p.normalX * offset, elevation, p.yMm / 1000 + p.normalY * offset)
@@ -23,7 +24,7 @@ export function drawAccess(group: THREE.Group, rack: Rack, selected: boolean, lo
       const floor = point(p, .04, .18)
       group.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints([floor, position]), new THREE.LineBasicMaterial({ color: '#b07a22', depthTest: false, transparent: true, opacity: .8 })))
       const text = point(p, elevation + .4, .5); label(location.code, text.x, text.y, text.z, true, 20)
-    } else if (rack.columns <= 12 || column === 1 || column === rack.columns) {
+    } else if (rack.columns <= MAX_INDIVIDUAL_COLUMN_LABELS || column === 1 || column === rack.columns) {
       const text = point(p, .12, .48); label(String(column).padStart(2, '0'), text.x, text.y, text.z, true, -1)
     }
   }
